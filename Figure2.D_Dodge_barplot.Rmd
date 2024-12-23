@@ -1,0 +1,141 @@
+[TOC]
+
+
+## 加载所需的包
+```{r}
+# 软件检测和安装
+
+library(ggplot2)
+library(dplyr)
+library(ggbreak)
+library(grid) 
+
+
+```
+
+## 数据导入
+```{r}
+# 设置文件路径
+metadata_file <- "C:/16S/result/faprotax2/metadata.txt"
+all_group_longformat_file <- "C:/16S/result/faprotax2/all_group_longformat.txt"
+
+# 读取 metadata 
+metadata <- read.table(metadata_file, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+
+# 读取 all_group_longformat
+all_group_longformat <- read.table(all_group_longformat_file, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+
+# print(metadata)
+# print(all_group_longformat)
+
+```    
+
+## 数据合并
+```{r}
+# Set file paths
+# Merge data based on common identifier
+merged_data <- merge(all_group_longformat, metadata, by.x = "group", by.y = "SampleID")
+# 移除 NA 项
+merged_data <- merged_data[!is.na(merged_data$variable), ]
+
+
+```    
+
+## 数据处理
+```{r}
+# 定义变量顺序
+variable_order <- c("chemoheterotrophy", "fermentation", "animal_parasites_or_symbionts", "aerobic_chemoheterotrophy",
+                    "nitrate_reduction", "aromatic_compound_degradation", "aliphatic_non_methane_hydrocarbon_degradation",
+                    "hydrocarbon_degradation", "methanol_oxidation", "methylotrophy", "human_associated", "ureolysis",
+                    "respiration_of_sulfur_compounds", "human_gut", "mammal_gut", "human_pathogens_all", "sulfate_respiration",
+                    "sulfite_respiration", "sulfur_respiration", "dark_hydrogen_oxidation")
+# print(merged_data)
+
+# 仅保留 variable_order 中的变量
+merged_data <- merged_data[merged_data$variable %in% variable_order, ]
+
+merged_data$variable <- factor(merged_data$variable, levels = rev(variable_order)) # 逆转顺序以确保从上到下的顺序
+```    
+
+## 图形绘制
+```{r}
+# 自定义配色
+custom_colors <- c("D" = "#FBB4AE", "H" = "#B3CDE3", "I" = "#CCEBC5")
+
+# 按顺序排列
+p <- ggplot(merged_data, aes(x = value, y = variable, fill = State)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_manual(values = custom_colors) + # 应用自定义配色
+  labs(title = "OTU Abundance") + # 设置标题
+  theme_minimal() +
+  theme(
+    axis.text.y = element_text(size = 6, hjust = 1), # 设置字体大小为 6pt
+    axis.text.x = element_text(size = 6), # 设置字体大小为 6pt
+    plot.title = element_text(size = 10, hjust = 0.5), # 设置标题字体大小并居中
+    panel.grid.major = element_blank(), # 移除主网格线
+    panel.grid.minor = element_blank(), # 移除次网格线
+    axis.line = element_line(color = "black"), # 添加坐标轴线
+    axis.ticks = element_line(color = "black"), # 添加刻度线
+    panel.background = element_blank(), # 移除背景
+    axis.title.y = element_blank(), # 移除 y 轴标题
+    axis.title.x = element_blank(), # 移除 x 轴底部标题
+    axis.text.x.bottom = element_blank(), # 移除底部 x 轴刻度标签
+    axis.ticks.x.bottom = element_blank(), # 移除底部 x 轴刻度线
+    axis.line.x.bottom = element_blank() # 移除底部 x 轴线
+  ) +
+  scale_x_break(c(650, 4500), scales = 0.6) +
+  #scale_x_continuous(breaks = custom_breaks, position = "top") # 设置 x 轴只在顶部展示
+  scale_x_continuous(
+    breaks = c(0, 200, 400, 600, 5000, 7000), # 设置断点前后的刻度
+    labels = c("0", "200", "400", "600", "5000", "7000"), # 设置标签
+    expand = c(0, 0), # 防止扩展坐标轴范围
+    position = "top" # 设置 x 轴只在顶部展示
+  )
+
+print(p)
+
+
+
+# 导出文件
+# Save the plot as a PNG file
+ggsave("C:/16S/result/faprotax2/bar_plot_new.png", plot = p, width = 6, height = 5)
+# Save the plot as a PDF file
+ggsave("C:/16S/result/faprotax2/bar_plot_new.pdf", plot = p, width = 6, height = 5)
+
+
+```    
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
