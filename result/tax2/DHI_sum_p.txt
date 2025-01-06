@@ -1,0 +1,13 @@
+Phylum	All	D	H	I	All
+Bacteroidetes	14.6	21.6	18.4	16.1	37.6
+Firmicutes	27.1	25.5	26.5	17.9	23.1
+Proteobacteria	31.3	19.6	30.6	41.1	12.1
+Fusobacteria	25	29.4	22.4	23.2	8.9
+Actinobacteria	2.08	1.96	2.04	1.79	8.0
+Spirochaetes	0	0	0	0	5.5
+Candidatus_Saccharibacteria	0	0	0	0	2.4
+Campilobacterota	0	1.96	0	0	1.1
+Synergistetes	0	0	0	0	0.6
+Tenericutes	0	0	0	0	0.3
+SR1	0	0	0	0	0.3
+Unassigned	0	0	0	0	0.1

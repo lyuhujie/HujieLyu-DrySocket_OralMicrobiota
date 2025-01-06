@@ -1,0 +1,13 @@
+Phylum	DGpre	DEmed	DEpost	DSpre	DSmed	DSpost	HGpre	HEmed	HEpost	HSpre	HSmed	HSpost	IGpre	IEmed	IEpost	ISpre	ISmed	ISpost	All
+Bacteroidetes	21.9	26.9	26.2	25.4	25.5	29.9	21	20	18.3	14.8	15.3	19.6	27	31.7	27.9	11.3	9.23	11.3	37.6
+Firmicutes	18.8	26.9	26.2	25.4	23.6	37.3	21	25	21.7	31.5	20.3	23.2	17.5	23.8	17.6	24.2	21.5	12.9	23.1
+Proteobacteria	18.8	16.4	21.3	13.6	21.8	11.9	35.5	35	33.3	22.2	33.9	28.6	33.3	25.4	30.9	40.3	47.7	38.7	12.1
+Fusobacteria	32.8	29.9	26.2	27.1	27.3	19.4	19.4	18.3	16.7	25.9	30.5	25	15.9	14.3	23.5	19.4	20	35.5	8.9
+Actinobacteria	4.69	0	0	8.47	0	1.49	3.23	1.67	3.33	5.56	0	1.79	0	1.59	0	3.23	1.54	1.61	8.0
+Spirochaetes	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	5.5
+Candidatus_Saccharibacteria	1.56	0	0	0	0	0	0	0	1.67	0	0	0	3.17	1.59	0	0	0	0	2.4
+Campilobacterota	1.56	0	0	0	1.82	0	0	0	5	0	0	1.79	3.17	0	0	0	0	0	1.1
+Synergistetes	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0.6
+Tenericutes	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0.3
+SR1	0	0	0	0	0	0	0	0	0	0	0	0	0	1.59	0	0	0	0	0.3
+Unassigned	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1.61	0	0	0.1
