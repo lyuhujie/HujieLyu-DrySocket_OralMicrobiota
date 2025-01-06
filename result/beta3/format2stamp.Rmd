@@ -1,0 +1,105 @@
+[TOC]
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+ 
+## 读取输入文件
+
+```{r read}
+# 1. 读取OTU表
+otutab = read.table("otutab.txt", header=T, row.names= 1, sep="\t", comment.char = "", stringsAsFactors = F)
+# 2. 读取物种注释
+tax = read.table("taxonomy.txt", header=T, row.names= 1, sep="\t",comment.char = "", stringsAsFactors = F) 
+
+# 数据按实验设计手动筛选(可选)
+metadata = read.table("metadata_less.txt", header=T, row.names=1, sep="\t") 
+# 如筛选soiltypesubspecies列中HIND和HTEJ两组
+# sub_metadata = subset(metadata, groupID %in% c("LIND","LTEJ","HIND","HTEJ"))
+# sub_metadata = subset(metadata, State %in% c("H","I","D"))
+# "DSmed-ISmed" "DEmed-IEmed" "DSmed-HSmed" "DEmed-HEmed" "DSpre-DSmed" "DGpre-DEmed" "DSmed-DSpost" "DEmed-DEpost" "DSpre-DSpost" "DGpre-DEpost" "HSpre-HSmed" "HSmed-HSpost" "HGpre-HEmed" "HEmed-HEpost"
+ 
+# DSmed_ISmed DEmed_IEmed DSmed_HSmed DEmed_HEmed DSpre_DSmed DGpre_DEmed DSmed_DSpost DEmed_DEpost DSpre_DSpost DGpre_DEpost HSpre_HSmed HSmed_HSpost HGpre_HEmed HEmed_HEpost
+
+# DSpre_DGpre HSpre_HGpre ISpre_IGpre DSmed_DEmed HSmed_HEmed ISmed_IEmed DSpost_DEpost     HSpost_HEpost ISpost_IEpost
+
+GA = "DSpost"
+GB = "DEpost"
+meta_name = "metadata"
+tail_name = "p.txt"
+result_file_names <- paste(meta_name,GA,GB,tail_name,sep ="_")
+print(result_file_names)
+sub_metadata = subset(metadata, Group_dayE%in% c(GA,GB))
+sub_metadata
+# sub_metadata1 = subset(metadata_all, DayE %in% c(Sday_A,Sday_B,"post"))
+# sub_metadata1
+# sub_metadata2 = subset(sub_metadata1, Site %in% c(Site_A))
+# sub_metadata2
+
+
+
+# 实验设计与输入文件交叉筛选
+idx = rownames(sub_metadata) %in% colnames(otutab)
+sub_metadata = sub_metadata[idx,]
+sub_otutab = otutab[,rownames(sub_metadata)]
+write.table(sub_metadata,file = result_file_names,quote = F,sep = '\t', row.names = T, col.names = T)
+#write.table(sub_metadata,file = "metadata_DEmed_DEpost.txt",quote = F,sep = '\t', row.names = T, col.names = T)
+
+# OTU丰度筛选阈值，默认0.1%，0为来筛选
+# thre = 0.02
+# # 输出文件名前缀
+# prefix = "tax"
+# 
+# # 生成各分类级汇总特征表
+# suppressWarnings(suppressMessages(library(amplicon)))
+# format2stamp(sub_otutab, tax, thre, prefix)
+# 在当前目录生成tax_1-8共7个级别+OTU过滤文件
+
+
+
+# cpcoa 的文件生成
+
+
+otutab = read.table("C:/16S/result/otutab.txt", header=T, row.names= 1, sep="\t", comment.char = "", stringsAsFactors = F)
+# 2. 读取物种注释
+tax = read.table("C:/16S/result/taxonomy.txt", header=T, row.names= 1, sep="\t",comment.char = "", stringsAsFactors = F) 
+
+# 数据按实验设计手动筛选(可选)
+metadata = read.table("C:/16S/result/metadata_DH.txt", header=T, row.names=1, sep="\t") 
+
+ 
+# DSmed_ISmed DEmed_IEmed DSmed_HSmed DEmed_HEmed DSpre_DSmed DGpre_DEmed DSmed_DSpost DEmed_DEpost DSpre_DSpost DGpre_DEpost HSpre_HSmed HSmed_HSpost HGpre_HEmed HEmed_HEpost
+
+# DSpre_ISpre_HSpre DSmed_ISmed_HSmed DSpost_ISpost_HSpost DGpre_IGpre_HGpre DEmed_IEmed_HEmed DEpost_IEpost_HEpost HSpre_HSmed_HSpost HGpre_HEmed_HEpost DSpre_DSmed_DSpost DGpre_DEmed_DEpost 
+
+
+GA = "HEpost"
+GB = "DEpost"
+#GC = "ISpost"
+meta_name = "metadata"
+tail_name = "p.txt"
+result_file_names <- paste(meta_name,GA,GB,tail_name,sep ="_")
+print(result_file_names)
+sub_metadata = subset(metadata, Group_dayE %in% c(GA,GB))
+sub_metadata
+
+# 实验设计与输入文件交叉筛选
+idx = rownames(sub_metadata) %in% colnames(otutab)
+sub_metadata = sub_metadata[idx,]
+sub_otutab = otutab[,rownames(sub_metadata)]
+write.table(sub_metadata,file = result_file_names,quote = F,sep = '\t', row.names = T, col.names = T)
+#write.table(sub_metadata,file = "metadata_DEmed_DEpost.txt",quote = F,sep = '\t', row.names = T, col.names = T)
+
+
+
+```
+使用此脚本，请引用下文：
+
+If used this script, please cited:
+
+**Yong-Xin Liu**, Lei Chen, Tengfei Ma, Xiaofang Li, Maosheng Zheng, Xin Zhou, Liang Chen, Xubo Qian, Jiao Xi, Hongye Lu, Huiluo Cao, Xiaoya Ma, Bian Bian, Pengfan Zhang, Jiqiu Wu, Ren-You Gan, Baolei Jia, Linyang Sun, Zhicheng Ju, Yunyun Gao, **Tao Wen**, **Tong Chen**. 2023. EasyAmplicon: An easy-to-use, open-source, reproducible, and community-based pipeline for amplicon data analysis in microbiome research. **iMeta** 2: e83. https://doi.org/10.1002/imt2.83
+
+Copyright 2016-2023 Yong-Xin Liu <liuyongxin@caas.cn>, Tao Wen <taowen@njau.edu.cn>, Tong Chen <chent@nrc.ac.cn>
