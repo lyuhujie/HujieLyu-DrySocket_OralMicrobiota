@@ -1,0 +1,172 @@
+---
+title: "Random Forest Classification(随机森林分类)"
+author: "Yong-Xin Liu(刘永鑫)"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    theme: cerulean
+    highlight: haddock
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+    code_fold: show
+---
+ 
+```{r setup, include=T}
+knitr::opts_chunk$set(echo = TRUE)
+# 检测和安装依赖包
+package_list <- c("randomForest","ggplot2","pheatmap")
+# 判断R包加载是否成功来决定是否安装后再加载
+for(p in package_list){
+  if(!suppressWarnings(suppressMessages(require(p, character.only = TRUE, quietly = TRUE, warn.conflicts = FALSE)))){
+    install.packages(p)
+    suppressWarnings(suppressMessages(library(p, character.only = TRUE, quietly = TRUE, warn.conflicts = FALSE)))
+  }
+}
+
+
+
+
+```
+
+随机森林分类通常有两个实验组，本示例原文于2019年由作者发表于Nature Biotechnology封面文章，以水稻籼稻(IND)和粳稻(TEJ)((在医学中如：健康人Healthy和癌症Cancer)。这些样本分别收集于L地和H地两地。我们计划以L地样本为建立模型、5倍交叉验证筛选重要的特征，再用H样本进行异地验证证明模型的普适性。引文和数据出处见文末引文。
+
+
+format2stamp步骤
+
+```{r}
+# 1. 读取OTU表
+otutab = read.table("otutab.txt", header=T, row.names= 1, sep="\t", comment.char = "", stringsAsFactors = F)
+# 2. 读取物种注释
+tax = read.table("taxonomy.txt", header=T, row.names= 1, sep="\t",comment.char = "", stringsAsFactors = F) 
+
+# 数据按实验设计手动筛选(可选)
+metadata_all = read.table("metadata.txt", header=T, row.names=1, sep="\t") 
+# 如筛选soiltypesubspecies列中HIND和HTEJ两组
+# sub_metadata = subset(metadata, groupID %in% c("LIND","LTEJ","HIND","HTEJ"))
+# sub_metadata = subset(metadata, State %in% c("H","I","D"))
+# "DSmed-ISmed" "DEmed-IEmed" "DSmed-HSmed" "DEmed-HEmed" "DSpre-DSmed" "DGpre-DEmed" "DSmed-DSpost" "DEmed-DEpost" "DSpre-DSpost" "DGpre-DEpost" "HSpre-HSmed" "HSmed-HSpost" "HGpre-HEmed" "HEmed-HEpost"
+SA = "ISpre"
+SB = "HSpre"
+SC = "DSpre"
+Site_A = "S"
+Site_B = "E"
+Site_C = "G"
+State_A = "H"
+State_B = "D"
+State_C = "I"
+Sday_A = "pre"
+Sday_B = "med"
+Sday_C = "pre"
+#变化下Sday_C变为pre
+
+filetial1 = "rf.txt"
+filetial2 = "rf.pdf"
+sub_metadatanames = "sub_metadata"
+rfcv_names = "rfcv"
+importance_names = "importance"
+top_f = "top_feautres"
+prediction_name = "prediction_binary"
+test_names = "test"
+class_names = "OTU"
+result_name = "result_new_E_pre"
+
+result_file_names <- paste(result_name,State_B,State_A,sep ="_")
+sub_metadata_filename <- paste(sub_metadatanames,Sday_A,State_B,State_A,filetial1,sep ="_")
+rfcv_filename_txt <- paste(class_names,rfcv_names,Sday_A,State_B,State_A,filetial1,sep ="_")
+rfcv_filename_pdf <- paste(class_names,rfcv_names,Sday_A,State_B,State_A,filetial2,sep ="_")
+importance_filename_txt <- paste(class_names,importance_names,Sday_A,State_B,State_A,filetial1,sep ="_")
+top_feautre_filename <- paste(class_names,top_f,Sday_A,State_B,State_A,filetial2,sep ="_")
+prediction_filename <- paste(class_names,prediction_name,Sday_A,State_B,State_A,filetial1,sep ="_")
+testfilename1 <- paste(class_names,test_names,Sday_A,State_B,filetial2,sep ="_")
+testfilename2 <- paste(class_names,test_names,Sday_A,State_A,filetial2,sep ="_")
+
+print(result_file_names)
+print(sub_metadata_filename)
+print(rfcv_filename_txt)
+print(rfcv_filename_pdf)
+print(importance_filename_txt)
+print(top_feautre_filename)
+print(prediction_filename)
+print(testfilename1)
+print(testfilename2)
+
+
+
+### 主要部分  按自己要求分组
+
+
+##  1. 筛选自己想要的分组以及内容
+sub_metadata1 = subset(metadata_all, State %in% c(State_A,State_B))
+sub_metadata1
+sub_metadata3 = subset(sub_metadata1, Site_1 %in% c(Site_A))
+sub_metadata3
+sub_metadata2 = subset(sub_metadata3, DayE %in% c(Sday_A,Sday_B))
+sub_metadata2
+
+# 实验设计与输入文件交叉筛选。
+idx = rownames(sub_metadata2) %in% colnames(otutab)
+sub_metadata2 = sub_metadata2[idx,]
+sub_metadata2
+sub_otutab_tax = otutab[,rownames(sub_metadata2)]
+sub_otutab_tax
+write.table(sub_metadata2,file = sub_metadata_filename,quote = F,sep = '\t', row.names = T, col.names = T)
+
+
+## 2. 制作多种物种分类的tax表
+# OTU丰度筛选阈值，默认0.1%，0为来筛选
+thre = 0.02
+# 输出文件名前缀
+prefix = "tax_pre_S_DH"
+
+# 生成各分类级汇总特征表
+suppressWarnings(suppressMessages(library(amplicon)))
+format2stamp(sub_otutab_tax, tax, thre, prefix)
+# 在当前目录生成tax_1-8共7个级别+OTU过滤文件
+
+
+
+## 3. 制作分组后metadata对应的OTU表
+table =read.table("tax_pre_S_DH_8OTU0.02.txt",header = T, row.names = 1)
+# 筛选L样品作为训练集
+# metadata_train = subset(metadata, soiltype %in% c("L"))
+# train2重命名，方便后面区分。
+metadata_train1 = train2
+summary(metadata_train1)
+
+# 筛选OTU
+idx = rownames(metadata_train1) %in% colnames(table)
+metadata_train1 = metadata_train1[idx,]
+otu_sub1 = table[, rownames(metadata_train1)] 
+otu_sub1
+dim(otu_sub1)
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
+使用此脚本，请引用下文：
+
+If used this script, please cited:
+
+**Yong-Xin Liu**, Lei Chen, Tengfei Ma, Xiaofang Li, Maosheng Zheng, Xin Zhou, Liang Chen, Xubo Qian, Jiao Xi, Hongye Lu, Huiluo Cao, Xiaoya Ma, Bian Bian, Pengfan Zhang, Jiqiu Wu, Ren-You Gan, Baolei Jia, Linyang Sun, Zhicheng Ju, Yunyun Gao, **Tao Wen**, **Tong Chen**. 2023. EasyAmplicon: An easy-to-use, open-source, reproducible, and community-based pipeline for amplicon data analysis in microbiome research. **iMeta** 2: e83. https://doi.org/10.1002/imt2.83
+
+Copyright 2016-2023 Yong-Xin Liu <liuyongxin@caas.cn>, Tao Wen <taowen@njau.edu.cn>, Tong Chen <chent@nrc.ac.cn>

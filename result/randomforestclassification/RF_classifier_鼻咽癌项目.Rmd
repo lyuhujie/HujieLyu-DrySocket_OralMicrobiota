@@ -1,0 +1,756 @@
+---
+title: "figure4. Models for npc diagnostics using gut microbiome features"
+author: "Baidefeng"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    theme: cerulean
+    highlight: haddock
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+    code_fold: show
+  word_document:
+    toc: yes
+    toc_depth: '3'
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+---
+
+![](figure4.jpg)
+
+
+Script for cross validation of the random forest classifiers (Figure 4)
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#rm(list=ls())
+# 导入数据包
+## packages
+library(reshape2)
+library(ggplot2)
+library(ggprism)
+library(dplyr)
+library(plyr)
+library(caret)
+library(randomForest)
+#install.packages("PRROC")
+library(PRROC)
+library(ROCR)
+library(pROC)
+library(yardstick)
+library(patchwork)
+library(cols4all)
+library(openxlsx)
+library(tidyverse)
+
+# 载入设置和函数, 这里主要用到了里面的main_theme绘图
+#source("scripts/stat_plot_functions.R")
+source("scripts/randomforest.crossvalidation.R")
+
+mytheme = theme_classic() + 
+  theme(text = element_text(family = "sans", size = 10))+
+  theme(#legend.position="none",
+    legend.text = element_text(size=8),
+    legend.title = element_blank(), 
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text.y = element_text(size=10, colour="black", family = "sans", angle = 0), 
+    axis.text.x = element_text(size=10, colour="black", family = "sans", angle = 0, hjust = 0),
+    axis.title= element_text(size=12, family = "sans"),
+    strip.text.x = element_text(size=10, angle = 0),
+    strip.text.y = element_text(size=10, angle = 0),
+    panel.border = element_rect(colour = "black"),
+    plot.title = element_text(size=10, angle = 0),
+    strip.background.x = element_rect(fill = "#E5E4E2", colour = "black", size = 0.5),
+    legend.position = c(0.85, 0.65),
+    )+
+      theme(axis.text.x=element_text(angle=0,vjust=1, hjust=0.6))+
+  theme(axis.line = element_line(size = 0.2, colour = "black"))
+
+```
+
+
+
+## Diagnostic model using all filtered species features
+
+Species
+Load data
+
+```{r species load data}
+
+# metadata 
+design <- read.table(file = "data/group779.txt", sep = "\t", header = T, row.names=1)
+# 未矫正批次效应删除11种菌
+# 779 samples
+df_species <- read.table(file = "data/species_779_11R.txt", sep = "\t", header = T, check.names = FALSE)
+
+# sum of Species
+# 计算每个Species微生物相对丰度之和，避免有重复Species统计
+data_species <- aggregate(.~ Species, data = df_species, sum)
+rownames(data_species) = data_species$Species
+data_species = data_species[, -1]# 1963 species
+data_species_ra = apply(data_species, 2, function(x) x/100)
+#write.csv(data_species_ra, "results/species_779_11R_ra.csv")
+
+# 数据先进行log10转换，然后z-score标准化用于后续分析
+# data_species_ra2 = log10(data_species_ra + 1e-05)
+# data_species_ra3 = apply(data_species_ra2, 1, function(x){
+#   return((x-mean(x))/sd(x))
+# })
+# data_species_ra4 = t(data_species_ra3)
+#write.csv(data_species_ra4, "results/species_779_11R_ra_standardized.csv")
+
+
+#1.微生物物种prevalence > 5%
+# 创建一个空向量用于存放每一行的0个数数据
+zero_counts <- vector("integer", nrow(data_species))
+# 循环遍历每一行数据
+for (i in 1:nrow(data_species)) {
+  # 初始化计数器
+  count <- 0
+  # 循环遍历当前行数据的每个元素
+  for (j in 1:ncol(data_species)) {
+    # 判断当前元素是否为 0
+    if (data_species[i, j] == 0) {
+      count <- count + 1  # 计数器加一
+    }
+  }
+  # 将当前行的0个数存放到结果向量中
+  zero_counts[i] <- count
+}
+# 输出结果向量
+zero_count = as.data.frame(zero_counts)
+data_species2 = data_species
+data_species2$zero_counts = zero_count$zero_counts
+data_species2$all_counts = 779
+data_species2$sample_percent = round(1-data_species2$zero_counts/data_species2$all_counts, 6)
+data_species3 = data_species2 %>% filter(data_species2$sample_percent >= 0.05)
+data_species3 = data_species3[, -c(780, 781, 782)]
+
+#2.在样品占比大于5%的菌中，看是否在每个样品中对应的细菌丰度是否都超过0.01%，选取相对丰度超过0.01%的菌
+data_species3 = apply(data_species3, 2, function(x) x/sum(x))
+data_species3 = as.data.frame(data_species3)
+count_t_values = apply(data_species3, 1, function(x)sum(x>=0.0001))
+count_t_values = as.data.frame(count_t_values)
+data_species3$count_t_values = count_t_values$count_t_values
+data_species3$all_counts = 779
+data_species3$t_percent = round(data_species3$count_t_values/data_species3$all_counts, 6)
+data_species4 = data_species3 %>% filter(data_species3$t_percent >= 0.05)
+data_species4 = data_species4[, -c(780, 781, 782)]
+#write.csv(data4, "results/species_model_used_779sample.csv")
+
+# 数据先进行log10转换，然后z-score标准化用于后续分析
+data_species5 = log10(data_species4 + 1e-05)
+
+```
+
+
+Species
+Data split
+
+```{r data split}
+
+data_species6 = apply(data_species5, 1, function(x){
+  return((x-mean(x))/sd(x))
+})
+data_species6 = t(data_species6)
+#write.csv(data6, "results/rf_model_species_used.csv")
+
+# 选取前面经过去重后的数据进行分析
+otutab = data_species6
+design2 = design
+
+# Select by manual set group
+if (TRUE){
+  sub_design = subset(design2, Group %in% c("NPC","Control")) 
+  sub_design$group  = factor(sub_design$Group, levels=c("NPC","Control"))
+}
+idx = rownames(sub_design) %in% colnames(otutab)
+sub_design = sub_design[idx,]
+sub_otutab = otutab[,rownames(sub_design)]
+
+# Create data partition
+# 将数据划分为训练集和测试集，# 这里大概按照7：3的比例划分训练集和测试集，779例样本的70%大约为545个，剩余234个样本约占30%
+otutab_t_species = as.data.frame(t(sub_otutab))
+# Set classification info.
+otutab_t_species$group = factor(sub_design$Group, levels = c("NPC","Control"))
+otutab_t_species = na.omit(otutab_t_species)
+row.name = rownames(otutab_t_species)
+# 779 samples
+set.seed = 515
+sam.row.name = sample(row.name, 545, replace = FALSE)
+train_data_species = otutab_t_species[sam.row.name, ]
+#train_data_species2 = as.data.frame(t(train_data_species))
+#write.csv(train_data2, "results/rf_model_species_used_train_data.csv")
+test_data_species = setdiff(otutab_t_species, train_data_species)
+#test_data_species2 = as.data.frame(t(test_data_species))
+#write.csv(test_data2, "results/rf_model_species_used_test_data.csv")
+
+```
+
+
+Species
+Model training
+
+```{r species rf models}
+# load data
+dat1_species <- train_data_species
+conf_species <- as.data.frame(dat1_species$group)
+rownames(conf_species) <- rownames(dat1_species)
+colnames(conf_species) <- "Group"
+conf_species$sample <- rownames(conf_species)
+conf_species <- as.data.frame(conf_species)
+# dat2_species <- dat1_species[ ,conf_species$Group == "Control" | conf_species$Group == "NPC"]
+# conf2_early <- conf_early[conf_early$Group=="Control" | conf_early$Group=="I_II",]
+dat2_species <- dat1_species
+conf2_species <- conf_species
+conf2_species$Group = as.factor(as.character(conf2_species$Group))
+outcome_species = conf2_species$Group
+outcome_species <- sub("Control","0",outcome_species)
+outcome_species <- sub("NPC","1",outcome_species)
+outcome_species <-as.factor(outcome_species)
+dat_species <- dat2_species
+X_species <- as.data.frame(dat_species)
+X_species$outcome_species = outcome_species
+X_species <- X_species[, -402]
+
+######5*10_crossvalidation####
+set.seed(999)
+result_species <- replicate(5, rfcv1(X_species[,-ncol(X_species)], X_species$outcome_species, cv.fold=10,step=0.9), simplify=FALSE)
+error.cv <- sapply(result_species, "[[", "error.cv")
+matplot(result_species[[1]]$n.var, cbind(rowMeans(error.cv), error.cv), type="l",
+        lwd=c(2, rep(1, ncol(error.cv))), col=1, lty=1, log="x",
+        xlab="Number of variables", ylab="CV Error")
+error.cv.cbm <- cbind(rowMeans(error.cv), error.cv)
+cutoff <- min (error.cv.cbm[,1])+sd(error.cv.cbm[,1])
+error.cv.cbm[error.cv.cbm[,1] < cutoff,]
+#abline(v=32,col="pink",lwd=2)
+#abline(v=23,col="pink",lwd=2)
+#abline(v=29,col="pink",lwd=2)
+abline(v=36,col="pink",lwd=2)
+
+#optimal = 32
+optimal = 36
+#optimal = 23
+#optimal = 29
+error.cv.cbm2 <- as.data.frame(error.cv.cbm)
+error.cv.cbm2$num <- rownames(error.cv.cbm2)
+n.var = error.cv.cbm2$num
+n.var = as.numeric(n.var)
+error.cv = error.cv.cbm2[,1:5]
+colnames(error.cv) = paste('err',1:5,sep='.')
+err.mean = apply(error.cv,1,mean)
+allerr = data.frame(num=n.var,err.mean=err.mean,error.cv)
+allerr = as.data.frame(allerr)
+# 对横坐标进行排序
+#allerr$num <- factor(allerr$num, levels = unique(allerr$num[order(allerr$num)]))
+write.table(allerr, file = "results/model_RF6/Species_rfcv_5_10_new.txt", sep = "\t", quote = F, row.names = T, col.names = T)
+
+allerr <- read.table(file = "results/model_RF6/Species_rfcv_5_10_new.txt", sep = "\t", header = T, row.names=1)
+mytheme3 = theme_bw() + theme(text = element_text(family = "sans", size = 7))+
+  theme(legend.position="none",
+    legend.text = element_text(size=14),
+    legend.title = element_blank(), 
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text.y = element_text(size=14, colour="black", family = "sans", angle = 0), 
+    axis.text.x = element_text(size=14, colour="black", family = "sans", angle = 0, hjust = 0),
+    axis.title= element_text(size=14),
+    strip.text.x = element_text(size=14, angle = 0),
+    strip.text.y = element_text(size=14, angle = 0),
+    plot.title = element_text(size=14, angle = 0),
+    strip.background.x = element_rect(fill = "#E5E4E2", colour = "black", size = 0.2))+
+      theme(axis.text.x=element_text(angle=0,vjust=1, hjust=0.6))+
+  theme(axis.line = element_line(size = 0.1, colour = "black"))
+
+p01_species = ggplot(allerr, aes(x=allerr$num)) + 
+  geom_line(data = allerr, aes(x = allerr$num, y = allerr$err.1), colour = 'grey') +
+  geom_line(data = allerr, aes(x = allerr$num, y = allerr$err.2), colour = 'grey') +
+  geom_line(data = allerr, aes(x = allerr$num, y = allerr$err.3), colour = 'grey') +
+  geom_line(data = allerr, aes(x = allerr$num, y = allerr$err.4), colour = 'grey') +
+  geom_line(data = allerr, aes(x = allerr$num, y = allerr$err.5), colour = 'grey') +
+  geom_line(data = allerr, aes(x = allerr$num, y = allerr$err.mean), colour = 'black') + 
+  geom_vline(xintercept = optimal, colour='black', lwd=0.36, linetype="dashed") + 
+  #geom_hline(yintercept = min(allerr$err.mean), colour='black', lwd=0.36, linetype="dashed") +#0.2278165
+  geom_hline(yintercept = 0.2278165, colour='black', lwd=0.36, linetype="dashed") +
+  mytheme3+
+  coord_trans(x = "log2") +
+  scale_x_continuous(breaks = c(10, 30, 50, 100, 200, 400)) + # , max(allerr$num)
+  labs(#title=paste('Training set (n = ', dim(train_data_species)[1],')', sep = ''),
+      x='Number of species ', y='Cross-validation error rate') +
+  annotate("text", x = optimal, y = max(allerr$err.mean), label=paste("optimal = ", optimal, sep="")) +
+  #main_theme+ 
+  theme_bw() + theme(panel.background = element_blank(),
+        panel.grid.major =element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = "none",
+        axis.title= element_text(size=10, family = "sans"))#+
+  #coord_flip()+
+  #theme(text = element_text(family = "sans", size = 14))
+#ggsave(p01_species, file = "results/model_RF6/Species_rfcv_5_10_top36_new.pdf", width = 129, height = 89, unit = 'mm')
+#ggsave("results/model_RF6/Species_rfcv_5_10_top36_new2.pdf",p01_species,width = 5,height = 3.2)
+p01_species
+
+#####pick 32 marker by corossvalidation#######
+k=1
+b <- matrix(0,ncol=401,nrow=50)
+for(i in 1:5){
+  for(j in 1:10){
+    b[k,]<-result_species[[i]]$res[[j]]
+    k=k+1
+  }}
+mlg.list<-b[,1:36]
+list<-c()
+k=1
+for(i in 1:36){
+  for(j in 1:50){
+    list[k]<-mlg.list[j,i]
+    k=k+1
+  }}
+mlg.sort<-as.matrix(table(list))
+mlg.sort<-mlg.sort[rev(order(mlg.sort[,1])),]
+pick_species<- as.numeric(names(head(mlg.sort,36)))
+tmp= X_species[,-ncol( X_species)]
+mlg.pick.species<-colnames(tmp)[pick_species]
+write.table(mlg.pick.species,"results/model_RF6/cross_validation_pick_36_in_species.txt",
+            sep="\t",quote=F)
+
+## train.set
+## 对比NPC和健康对照组预测为鼻咽癌的概率
+train1_species <- X_species[,c(pick_species,402)]
+train1_species <-data.frame(train1_species)
+set.seed(32)
+train1.rf_species <- randomForest(outcome_species~., data =train1_species,
+                          importance = TRUE)
+train1.pre_species <- predict(train1.rf_species,type="prob")
+p.train_species <- train1.pre_species[,2]
+#boxplot(p.train~outcome,col=c(3,4),main="Probability of NPC")
+write.table(p.train_species,"results/model_RF6/species.cross_validation.36makr.predict.in.train32.txt",
+            sep="\t",quote=F)
+
+train1_pre2_species <- data.frame(outcome_species, p.train_species)
+train1_pre2_species$outcome_species <- as.factor(train1_pre2_species$outcome_species)
+train1_pre2_species$outcome_species <- sub("0","Healthy",train1_pre2_species$outcome_species)
+train1_pre2_species$outcome_species <- sub("1","NPC",train1_pre2_species$outcome_species)
+compaired = list(c("Control", "NPC"))
+
+library(ggsignif)
+library(scales)
+compaired2 = list(c("Healthy", "NPC"))
+train1_pre2_species <- read.table(file = "results/model_RF6/species.cross_validation.36makr.predict.in.train32_box.txt", sep = "\t", header = T, row.names=1)
+p02_species <- ggplot(train1_pre2_species, aes(x=outcome_species, y=p.train_species, fill=outcome_species)) + 
+  geom_boxplot(position=position_dodge(width =0.4),width=0.5, size = 0.4,
+               fill = "transparent", 
+               outlier.shape = NA,
+               linetype = "dashed")+
+  #theme_bw()+ 
+  theme_classic()+
+  labs(x = NULL, y = "Probability of NPC", color = outcome_species)+
+  geom_jitter(aes(color=outcome_species),position = position_jitter(0.15), 
+                size = 0.3, alpha = 1)+
+  stat_boxplot(geom = "errorbar",aes(ymin=..ymax..),
+               width=0.18,color="black",size = 0.4)+
+  stat_boxplot(geom = "errorbar",aes(ymax=..ymin..),
+               width=0.18,color="black",size = 0.4)+
+  stat_boxplot(aes(ymin=..lower..,ymax=..upper.., fill=outcome_species), color="black",
+               fill = "transparent",position=position_dodge(width =0.4),
+               width=0.5, size = 0.4,outlier.shape = NA)+
+  geom_signif(comparisons = compaired2, step_increase = 0.3, map_signif_level = F,
+            test = wilcox.test, color = "black", size = 0.2, textsize = 3)+
+  scale_y_continuous(labels = label_number(accuracy = 0.1)) +
+  #ylim(0, 1.5)+
+  #scale_fill_manual(values = c("#74add1","#a60026"))+
+  scale_fill_manual(values = c("#74add1","#CD5B45"))+
+  #scale_color_manual(values = c("#74add1","#a60026"))+
+  scale_color_manual(values = c("#74add1","#CD5B45"))+
+  theme(panel.background = element_blank(), panel.grid.major =element_blank(),
+        panel.grid.minor = element_blank(), legend.position = "none",
+        axis.text = element_text(size=10, family = "sans"),
+        axis.title= element_text(size=10, family = "sans"),
+        text = element_text(family = "sans", size = 10))
+#ggsave(paste("results/model_RF6/Species_36markers_npc_healthy_boxplot2",".pdf", sep=""), p02_species, width=69 * 1.5, height=80 * 1.5, unit='mm')
+p02_species
+
+# Mean Decrease Accuracy是指在随机森林中，通过计算特征的重要度，来评估每个特征的重要程度。其重要度的计算是基于在每个随机森林的决策树中，每个特征点在随机化之前和之后所降低的准确性。Mean decrease accuracy是选择特征重要性的一种有效方法，可以帮助我们在各种机器学习问题中筛选出最重要的特征。
+varImpPlot(train1.rf_species, main = "Top feature importance", n.var = 20)
+write.table(train1.rf_species$confusion, file = "results/model_RF6/Species_confusion_rf2.txt", sep = "\t", quote = F, row.names = T, col.names = T)
+imp_species = as.data.frame(round(importance(train1.rf_species), 2))
+imp_species = imp_species[order(imp_species$MeanDecreaseAccuracy, decreasing = F),]
+write.table(imp_species, file = "results/model_RF6/Species_imp_rf2.txt", sep = "\t", quote = F, row.names = T, col.names = T)
+
+system("awk 'NR==FNR{a[$8]=$3} NR>FNR{print $0\"\t\"a[$1]}' data/taxonomy_779.txt results/model_RF6/Species_imp_rf2.txt | sed '1 s/$/Phylum/' > results/model_RF6/Species_imp_phylum_rf2.txt")
+system("awk 'NR==FNR{a[$8]=$6} NR>FNR{print $0\"\t\"a[$1]}' data/taxonomy_779.txt results/model_RF6/Species_imp_rf2.txt | sed '1 s/$/Phylum/' > results/model_RF6/Species_imp_family_rf.txt")
+
+## 绘制模型挑选出的物种的柱状图，横轴为MeanDecreaseAccuracy，纵轴为物种，以Phylum着色
+imp_species = read.table("results/model_RF6/Species_imp_phylum_rf2.txt", header=T, row.names= 1, sep="\t")
+imp_species = tail(imp_species, n = optimal)
+imp_species$Species = factor(rownames(imp_species), levels = rownames(imp_species))
+p03_species = ggplot(imp_species, aes(x = Species, y = MeanDecreaseAccuracy, fill = Phylum)) + 
+  geom_bar(stat = "identity") + theme_classic()+
+  #scale_fill_manual(values = c("#63B8FF","orange","#4AB3AA", "#D10640"))+
+  #  scale_color_manual(values = c("#63B8FF", "orange","#4AB3AA","#D10640"))+
+  scale_fill_manual(values = c("#63B8FF","#4AB3AA", "#D10640"))+
+    scale_color_manual(values = c("#63B8FF", "#4AB3AA","#D10640"))+
+  coord_flip() + #main_theme+
+  theme(legend.position = c(0.85,0.8))+
+  scale_y_continuous(expand = c(0,0))+
+  labs(y = "Mean Decrease Accuracy", x = "Species")
+ggsave(paste("results/model_RF6/Species_top_feautre_11RM_top36markers_phylum_new",".pdf", sep=""), p03_species, width=119 * 1.5, height=80 * 1.5, unit='mm')
+p03_species
+
+#p04_test <- p03_species + annotation_custom(grob=ggplotGrob(p01_species),ymin = 6.5, ymax = 21, xmin=1, xmax=18)
+#ggsave(paste("results/model_RF2/Species_top_feautre_11RM_top32markers_phylum_new_combine3",".pdf", sep=""), p04_test, width=99 * 1.5, height=119 * 1.5, unit='mm')
+#p04_test
+
+## 绘制模型挑选出的物种的柱状图，横轴为MeanDecreaseAccuracy，纵轴为物种，以Family着色
+imp_species = read.table("results/model_RF6/Species_imp_family_rf2.txt", header=T, row.names= 1, sep="\t")
+imp_species = tail(imp_species, n = optimal)
+imp_species$Species = factor(rownames(imp_species), levels = rownames(imp_species))
+p04_species = ggplot(imp_species, aes(x = Species, y = MeanDecreaseAccuracy, fill = Family)) + 
+  geom_bar(stat = "identity") + 
+  coord_flip() + main_theme+
+  scale_fill_manual(values = c("#d2da93","#5196d5","#00ceff","#ff630d","#9b82e1",
+                  "#e5acd7","#36999d","#ec8181","#dfc6a5","#e50719",
+                  "#d27e43","#8a4984","#fe5094","#8d342e","#f94e54",
+                  "#ffad00","#36999d","#00fc8d","#b64aa0","#9b82e1"))+
+  scale_y_continuous(expand = c(0,0))+
+  labs(y = "Mean Decrease Accuracy", x = "Species")
+#ggsave(paste("results/model_RF6/Species_top_feautre_11RM_top36markers_family_new3",".pdf", sep=""), p04_species, width=119 * 1.5, height=70 * 1.5, unit='mm')
+p04_species
+
+library(patchwork)
+p_AB <- p1 + p04_species
+p_AB
+ggsave(paste("results/model_RF6/p_AB_04",".pdf", sep=""), p_AB, width=179 * 1.5, height=65 * 1.5, unit='mm')
+
+
+
+```
+
+
+Species
+Feature abundance barplot
+Biomarker families with higher relative abundance in the microbiome of NPC and heealthy controls. Error bars represent standard deviations. Data prepare and draw all features abundance in two groups.
+
+```{r feature_bar_species, echo=TRUE}
+# Relative abundance
+otutab2 = data_species4
+design2 = design
+
+# Select by manual set group
+if (TRUE){
+  sub_design2 = subset(design2, Group %in% c("NPC","Control")) 
+  sub_design2$group  = factor(sub_design2$Group, levels=c("NPC","Control"))
+}
+idx = rownames(sub_design2) %in% colnames(otutab2)
+sub_design2 = sub_design2[idx,]
+sub_otutab2 = otutab2[,rownames(sub_design2)]
+
+otu_bar2 = sub_otutab2[rownames(imp_species),]
+write.csv(otu_bar2, "results/model_RF6/rf_model_top36_sepcies_ra.csv")
+mean2 = data.frame(id = rownames(otu_bar2), mean=rowMeans(otu_bar2))
+# Decreasing by mean
+# 按平均值降序排列
+mean2 = arrange(mean2, plyr::desc(mean)) 
+otu_bar2 = as.data.frame(otu_bar2)
+otu_bar2$Species = rownames(otu_bar2)
+otu_bar2 = melt(otu_bar2, id.vars = "Species")
+design2$sampleID = rownames(design2)
+otu_bar2 = merge(otu_bar2, design2[,c("sampleID","Group")], by.x="variable", by.y = "sampleID", all.x = T)
+otu_error_bar2 = summarySE(otu_bar2, measurevar="value", groupvars=c("Species","Group"))
+otu_error_bar2$Species = factor(otu_error_bar2$Species, levels = mean2$id)
+
+p05_species = ggplot(otu_error_bar2, aes(x=Species, y=value, fill=Group)) + 
+  geom_bar(position=position_dodge(), stat="identity") +
+  geom_errorbar(aes(ymin=value-ci, ymax=value+ci),
+                width=.5,                    # Width of the error bars
+                position=position_dodge(.9), size = 0.16)+ labs(y="Relative abundance")+theme_classic()+#main_theme+
+  scale_fill_manual(values = c("#00ceff","#f94e54"))+
+  scale_color_manual(values = c("#00ceff","#f94e54"))
+p05_species = p05_species + theme(axis.text.x=element_text(angle=45, vjust=1, hjust=1, size = 5),
+          axis.line = element_line(linewidth = 0.2))
+ggsave(paste("results/model_RF6/Species_errorbar_top36_relative_abundance_new",".pdf", sep=""), p05_species, width=89 * 1.5, height=40 * 2, unit='mm')
+p05_species
+
+```
+
+
+Species
+Train set
+ROC curve
+
+```{r species train set roc curve}
+
+# ROC in train set
+roc1_species_train <- roc(outcome_species, p.train_species,
+            ci=TRUE, boot.n=100, ci.alpha=0.9, stratified=FALSE,
+            plot=TRUE#, percent=roc1$percent,col=2
+            )
+# 获得AUROC平均值和置信区间
+auc_species_train = round(roc1_species_train$auc,3)
+roc1_species_train2 <- plot.roc(outcome_species, p.train_species, ci=TRUE, print.auc=TRUE)
+ci_low_species_train = round(roc1_species_train2$ci[1], 3)
+ci_high_species_train = round(roc1_species_train2$ci[3], 3)
+# 计算95%置信区间
+roc.list <- list(roc1_species_train)
+ci.list <- lapply(roc.list, ci.se, specificities = seq(0, 1, l = 25))
+ciobj02 <- ci.se(roc1_species_train, # CI of sensitivity, random forest
+               specificities=seq(0, 1, 0.01)) # over a select set of specificities
+# 将多个ROC的置信区间上下阈值放到一个数据框中
+ciobj3 <- as.data.frame(ciobj02)
+dat.ci.list <- lapply(ci.list, function(ciobj3)
+  data.frame(x = as.numeric(rownames(ciobj3)),
+             lower = ciobj3[, 1],
+             upper = ciobj3[, 3]))
+# 绘制基础图，此处显示的每个模型的AUROC值需要根据每次运行结果进行调整
+p1_species_train <- ggroc(roc.list, legacy.axes = TRUE) + #theme_minimal() +
+  theme_bw()+ coord_equal()+ 
+  theme(panel.background = element_blank(),
+        panel.grid.major =element_blank(),
+        panel.grid.minor = element_blank(),
+        #axis.title= element_text(size=10, family = "sans"),
+        #plot.title = element_text(size = 10, family = "sans", hjust = 0.5),
+        #text = element_text(family = "sans", size = 10),
+        legend.position = "none")+ 
+  geom_abline(slope=1, intercept = 0, linetype = "dashed", alpha=0.5, color = "grey") + 
+  coord_fixed(ratio = 0.9)+ ggtitle("Training set (n = 545)")+
+  geom_line(size = 0.8)+labs(x = "1 - Specificity", y = "Sensitivity")+
+  annotate("text", x = 0.77, y = 0.18, label = paste0("AUC = ", auc_species_train), size = 3)+
+  annotate("text", x = 0.77, y = 0.08, label = paste0("CI = ",  ci_low_species_train, "-", ci_high_species_train), size = 3)+
+  scale_color_manual(values=c("#CD3278"))
+
+col.list = list("#CD3278")
+# 加上置信区间
+for(i in 1:1) {
+  p1_species_train <- p1_species_train + geom_ribbon(
+    data = dat.ci.list[[i]],
+    aes(x = 1-x, ymin = lower, ymax = upper),
+    fill = col.list[[i]],
+    alpha = 0.3,
+    inherit.aes = F)
+}
+#ggsave(paste("results/model_RF/selected_32_species_model_auroc_train_set",".pdf", sep=""), p1_32_train, width=109 * 1.5, height=60 * 1.5, unit='mm')
+p1_species_train
+
+```
+
+Species
+Test set
+ROC curve
+
+```{r cars}
+# ROC in test set
+#dat3_species_test <- test_data_species[,c(pick_species, 402)]
+dat3_species_test <- test_data_species
+dat3_species_test <- data.frame(dat3_species_test)
+
+set.seed(32)
+test_species <- predict(train1.rf_species, dat3_species_test, type="prob")
+conf3_species_test <- as.data.frame(dat3_species_test$group)
+rownames(conf3_species_test) <- rownames(dat3_species_test)
+colnames(conf3_species_test) <- "Group"
+conf3_species_test$sample <- rownames(conf3_species_test)
+
+rN.test <- rownames(test_species)
+rN.test <- sub("X","",rN.test)
+rN.conf <- rownames(conf3_species_test)
+gid <- intersect(rN.test ,rN.conf)
+test_species <- test_species[pmatch(gid, rN.test), ]
+conf3_species_test <- conf3_species_test[pmatch(gid, rN.conf), ]
+write.table(test_species[, 2],"results/model_RF6/species.cross_validation.36makr.predict.in.test32.txt",
+            sep="\t",quote=F)
+
+compaired2 = list(c("Healthy", "NPC"))
+test1_pre2_species <- read.table(file = "results/model_RF6/species.cross_validation.36makr.predict.in.test32_box.txt", sep = "\t", header = T, row.names=1)
+p02_species_test <- ggplot(test1_pre2_species, aes(x=outcome_species, y=p.test_species, fill=outcome_species)) + 
+  geom_boxplot(position=position_dodge(width =0.4),width=0.5, size = 0.4,
+               fill = "transparent", 
+               outlier.shape = NA,
+               linetype = "dashed")+
+  #theme_bw()+ 
+  theme_classic()+ 
+  labs(x = NULL, y = "Probability of NPC", color = outcome_species)+
+  geom_jitter(aes(color=outcome_species),position = position_jitter(0.15), 
+                size = 0.3, alpha = 1)+
+  stat_boxplot(geom = "errorbar",aes(ymin=..ymax..),
+               width=0.18,color="black",size = 0.4)+
+  stat_boxplot(geom = "errorbar",aes(ymax=..ymin..),
+               width=0.18,color="black",size = 0.4)+
+  stat_boxplot(aes(ymin=..lower..,ymax=..upper.., fill=outcome_species), color="black",
+               fill = "transparent",position=position_dodge(width =0.4),
+               width=0.5, size = 0.4,outlier.shape = NA)+
+  geom_signif(comparisons = compaired2, step_increase = 0.3, map_signif_level = F,
+            test = wilcox.test, color = "black", size = 0.2, textsize = 3)+
+  scale_y_continuous(labels = label_number(accuracy = 0.1)) +
+  #ylim(0, 1.5)+
+  #scale_fill_manual(values = c("#74add1","#a60026"))+
+  scale_fill_manual(values = c("#74add1","#CD5B45"))+
+  #scale_color_manual(values = c("#74add1","#a60026"))+
+  scale_color_manual(values = c("#74add1","#CD5B45"))+
+  theme(panel.background = element_blank(), panel.grid.major =element_blank(),
+        panel.grid.minor = element_blank(), legend.position = "none",
+        axis.text = element_text(size=10, family = "sans"),
+        axis.title= element_text(size=10, family = "sans"),
+        text = element_text(family = "sans", size = 10))
+#ggsave(paste("results/model_RF6/Species_36markers_npc_healthy_boxplot_test2",".pdf", sep=""), p02_species_test, width=69 * 1.5, height=80 * 1.5, unit='mm')
+p02_species_test
+
+
+########test.ROC##########
+outcome_species_test = conf3_species_test$Group
+outcome_species_test <- sub("Control","0",outcome_species_test)
+outcome_species_test <- sub("NPC", "1", outcome_species_test)
+roc1_species_test <- roc(outcome_species_test, test_species[,2],
+            ci=TRUE, boot.n=100, ci.alpha=0.9, stratified=FALSE,
+            plot=TRUE#, percent=roc1$percent,col=2
+            )
+# AUROC
+roc_species_test2 = roc(outcome_species_test, test_species[,2])
+#roc_species_test2
+# 获得AUROC平均值和置信区间
+auc_species_test = round(roc_species_test2$auc,3)
+roc_species_test2_2 <- plot.roc(outcome_species_test, test_species[, 2],
+                   ci=TRUE, print.auc=TRUE)
+ci_low_species_test = round(roc_species_test2_2$ci[1], 3)
+ci_high_sepcies_test = round(roc_species_test2_2$ci[3], 3)
+
+# 计算95%置信区间
+roc.list <- list(roc_species_test2)
+ci.list <- lapply(roc.list, ci.se, specificities = seq(0, 1, l = 25))
+ciobj02 <- ci.se(roc_species_test2, # CI of sensitivity, random forest
+               specificities=seq(0, 1, 0.01)) # over a select set of specificities
+
+# 将多个ROC的置信区间上下阈值放到一个数据框中
+ciobj3 <- as.data.frame(ciobj02)
+dat.ci.list <- lapply(ci.list, function(ciobj3)
+  data.frame(x = as.numeric(rownames(ciobj3)),
+             lower = ciobj3[, 1],
+             upper = ciobj3[, 3]))
+
+# 绘制基础图，此处显示的每个模型的AUROC值需要根据每次运行结果进行调整
+p1_species_test <- ggroc(roc.list, legacy.axes = TRUE) + #theme_minimal() +
+  theme_bw()+
+  theme(panel.background = element_blank(),
+        panel.grid.major =element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = "none") + coord_equal() + coord_fixed(ratio = 0.9)+
+  geom_abline(slope=1, intercept = 0, linetype = "dashed", alpha=0.5, color = "grey") + 
+  ggtitle("Testing set (n = 234)")+
+  geom_line(size = 0.8)+labs(x = "1 - Specificity", y = "Sensitivity")+
+  annotate("text", x = 0.77, y = 0.18, label = paste0("AUC = ", auc_species_test), size = 3)+
+  annotate("text", x = 0.77, y = 0.08, label = paste0("CI = ",  ci_low_species_test, "-", ci_high_sepcies_test), size = 3)+
+  scale_color_manual(values=c("#CD3278"))
+
+col.list = list("#CD3278")
+# 加上置信区间
+for(i in 1:1) {
+  p1_species_test <- p1_species_test + geom_ribbon(
+    data = dat.ci.list[[i]],
+    aes(x = 1-x, ymin = lower, ymax = upper),
+    #fill = i + 1,
+    fill = col.list[[i]],
+    alpha = 0.3,
+    inherit.aes = F)
+}
+#ggsave(paste("results/model_RF/all_selected_32_species_model_auroc_test_set_new",".pdf", sep=""), p3_32_test, width=109 * 1.5, height=60 * 1.5, unit='mm')
+p1_species_test
+
+p_species_all = p1_species_train + p1_species_test
+ggsave(paste("results/model_RF6/all_selected_36_species_model_auroc_both_set_new",".pdf", sep=""), p_species_all, width=109 * 1.5, height=60 * 1.5, unit='mm')
+p_species_all
+
+library(patchwork)
+p_s6_abc <- p01_species + p02_species + p02_species_test
+p_s6_abc
+ggsave(paste("results/model_RF6/p_s6_abc",".pdf", sep=""), p_s6_abc, width=169 * 1.5, height=60 * 1.5, unit='mm')
+
+p_s6_abc2 <- p01_species | p02_species + p02_species_test
+p_s6_abc2
+ggsave(paste("results/model_RF6/p_s6_abc3",".pdf", sep=""), p_s6_abc2, width=140 * 1.5, height=60 * 1.5, unit='mm')
+
+```
+
+
+Species
+Train and test combination
+
+```{r species train and test combination}
+# Train and test set
+roc.list01 <- list(roc1_species_train, roc_species_test2)
+ci.list01 <- lapply(roc.list01, ci.se, specificities = seq(0, 1, l = 25))
+ciobj01 <- ci.se(roc1_species_train, # CI of sensitivity, random forest
+               specificities=seq(0, 1, 0.01)) # over a select set of specificities
+ciobj02 <- ci.se(roc_species_test2,
+               specificities=seq(0, 1, 0.01))
+# 将多个ROC的置信区间上下阈值放到一个数据框中
+ciobj3 <- as.data.frame(ciobj01, ciobj02)
+dat.ci.list <- lapply(ci.list01, function(ciobj3)
+  data.frame(x = as.numeric(rownames(ciobj3)),
+             lower = ciobj3[, 1],
+             upper = ciobj3[, 3]))
+# 绘制基础图，此处显示的每个模型的AUROC值需要根据每次运行结果进行调整
+p_all_species <- ggroc(roc.list01, legacy.axes = TRUE) + #theme_minimal() +
+  theme_bw()+
+  theme(panel.background = element_blank(),
+        panel.grid.major =element_blank(),
+        panel.grid.minor = element_blank())+
+  geom_abline(slope=1, intercept = 0, linetype = "dashed", alpha=0.5, color = "grey") + coord_equal()+
+  theme(legend.position = c(0.70, 0.17))+coord_fixed(ratio = 0.9)+
+  #ggtitle("Train set")+
+  geom_line(size = 0.6)+labs(x = "1 - Specificity", y = "Sensitivity")+
+  scale_color_manual(values=c("#EE3A8C","#008B8B","#374383"),#"#2d8c46",
+                     name= "",
+                      labels = c("Training set (AUC = 0.866 (CI = 0.836-0.897))", "Testing set (AUC = 0.849 (CI = 0.799-0.898))")
+                      )
+col.list = list("#EE3A8C","#008B8B","#374383")#"#2d8c46",
+# 加上置信区间
+for(i in 1:2) {
+  p_all_species <- p_all_species + geom_ribbon(
+    data = dat.ci.list[[i]],
+    aes(x = 1-x, ymin = lower, ymax = upper),
+    fill = col.list[[i]],
+    alpha = 0.2,
+    inherit.aes = F)
+}
+ggsave(paste("results/model_RF6/all_selected_36_species_model_auroc_both_set_new02",".pdf", sep=""), p_all_species, width=75 * 1.5, height=60 * 1.5, unit='mm')
+p_all_species
+
+```
+
+
+
+Sensitivity and Specificity
+
+```{r species train set roc curve}
+
+library(openxlsx)
+library(tidyverse)
+
+##训练集
+#datax <- read.xlsx("data/0408RFS.xlsx")
+datax <- read.xlsx("results/model_RF5/0423RFS_35.xlsx")
+
+library(multipleROC)
+p23 <- multipleROC(group~RFS, datax)
+p23$sens
+cut2 <- p23$cutpoint
+datax$tn <- ifelse(datax$RFS>=cut2,1,0)
+#鼻咽癌人群中计算为健康人群的概率还挺大的
+data_npc <- filter(datax,group==1)
+table(data_npc$tn)
+
+#健康人群中假阳性率低
+data_hc <- filter(datax,group==0)
+table(data_hc$tn)
+table(data_hc$tn)[[2]]/(table(data_hc$tn)[[1]]+table(data_hc$tn)[[2]])
+
+Specificity <- (221)/(263)
+Specificity
+
+```
