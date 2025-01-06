@@ -1,0 +1,259 @@
+z	module	p	roles	label	role_7
+ASV_2	-0.262553857487346	3	0	Peripherals		ultra peripheral
+ASV_6	1.08931919595814	3	0.499856363114048	Peripherals		peripheral
+ASV_17	-0.549314808218206	3	0	Peripherals		ultra peripheral
+ASV_40	-0.713178208635841	3	0	Peripherals		ultra peripheral
+ASV_33	0.106138793452332	3	0.329795918367347	Peripherals		peripheral
+ASV_43	-0.385451407800572	3	0.532921810699589	Peripherals		peripheral
+ASV_30	0.0242070932435143	3	0	Peripherals		ultra peripheral
+ASV_47	1.82670449783749	3	0.532598714416896	Peripherals		peripheral
+ASV_79	0.106138793452332	3	0.524653979238754	Peripherals		peripheral
+ASV_77	1.376080146689	3	0.548153145555743	Peripherals		peripheral
+ASV_75	-0.836075758949067	3	0.0555102040816327	Peripherals		peripheral
+ASV_93	2.11346544856835	3	0.5	Peripherals		peripheral
+ASV_95	0.843524095331687	3	0.291666666666667	Peripherals		peripheral
+ASV_130	0.597728994705235	3	0.516156462585034	Peripherals		peripheral
+ASV_82	1.04835334585373	3	0.42435030259879	Peripherals		peripheral
+ASV_152	-0.836075758949067	3	0.400181077410593	Peripherals		peripheral
+ASV_108	1.376080146689	3	0.509512485136742	Peripherals		peripheral
+ASV_146	1.53994354710663	3	0	Peripherals		ultra peripheral
+ASV_220	0.0651729433479229	3	0.495408631772268	Peripherals		peripheral
+ASV_149	0.188070493661149	3	0.504081632653061	Peripherals		peripheral
+ASV_144	0.351933894078783	3	0	Peripherals		ultra peripheral
+ASV_311	0.188070493661149	3	0.558071585098612	Peripherals		peripheral
+ASV_235	-0.590280658322615	3	0.379535990481856	Peripherals		peripheral
+ASV_180	1.62187524731545	3	0.233747260774288	Peripherals		peripheral
+ASV_284	0.802558245227278	3	0	Peripherals		ultra peripheral
+ASV_230	-0.0167587568608943	3	0.505787037037037	Peripherals		peripheral
+ASV_192	0.188070493661149	3	0.265532544378698	Peripherals		peripheral
+ASV_184	0.0651729433479229	3	0.263671875	Peripherals		peripheral
+ASV_577	1.00738749574932	3	0.102264426588751	Peripherals		peripheral
+ASV_507	-1.08187085957552	3	0.403114186851211	Peripherals		peripheral
+ASV_280	0.802558245227278	3	0.352108341028009	Peripherals		peripheral
+ASV_269	0.884489945436095	3	0	Peripherals		ultra peripheral
+ASV_488	1.25318259637577	3	0.496301775147929	Peripherals		peripheral
+ASV_234	0.925455795540504	3	0.324417009602195	Peripherals		peripheral
+ASV_324	1.376080146689	3	0.465104560342656	Peripherals		peripheral
+ASV_1153	-0.590280658322615	3	0.498512396694215	Peripherals		peripheral
+ASV_446	1.62187524731545	3	0.477502295684114	Peripherals		peripheral
+ASV_436	1.376080146689	3	0	Peripherals		ultra peripheral
+ASV_20	-1.20476840988874	3	0.535108024691358	Peripherals		peripheral
+ASV_50	-0.713178208635841	3	0.499540863177227	Peripherals		peripheral
+ASV_161	0.0242070932435143	3	0	Peripherals		ultra peripheral
+ASV_190	0.0651729433479229	3	0	Peripherals		ultra peripheral
+ASV_592	-0.754144058740249	3	0.499540863177227	Peripherals		peripheral
+ASV_591	-1.04090500947111	3	0.160899653979239	Peripherals		peripheral
+ASV_12	0.556763144600826	3	0	Peripherals		ultra peripheral
+ASV_121	1.17125089616696	3	0	Peripherals		ultra peripheral
+ASV_337	0.597728994705235	3	0.494341330918968	Peripherals		peripheral
+ASV_420	0.720626545018461	3	0.501890359168242	Peripherals		peripheral
+ASV_415	0.0651729433479229	3	0.337370242214533	Peripherals		peripheral
+ASV_639	-0.631246508427024	3	0.512110726643599	Peripherals		peripheral
+ASV_458	-1.12283670967993	3	0.260631001371742	Peripherals		peripheral
+ASV_169	-0.999939159366701	3	0.391111111111111	Peripherals		peripheral
+ASV_32	-1.12283670967993	3	0.493827160493827	Peripherals		peripheral
+ASV_41	-1.28670011009756	3	0.452231404958678	Peripherals		peripheral
+ASV_44	-1.24573425999315	3	0.491781722550953	Peripherals		peripheral
+ASV_49	-1.24573425999315	3	0.44238683127572	Peripherals		peripheral
+ASV_92	-1.20476840988874	3	0.476739715494041	Peripherals		peripheral
+ASV_205	-1.28670011009756	3	0.459710743801653	Peripherals		peripheral
+ASV_321	-1.28670011009756	3	0	Peripherals		ultra peripheral
+ASV_272	-1.04090500947111	3	0.491900826446281	Peripherals		peripheral
+ASV_241	-1.24573425999315	3	0.48	Peripherals		peripheral
+ASV_179	-1.28670011009756	3	0.473372781065089	Peripherals		peripheral
+ASV_268	-1.28670011009756	3	0.110726643598616	Peripherals		peripheral
+ASV_1	0.310968043974375	3	0.524061476442429	Peripherals		peripheral
+ASV_61	-1.20476840988874	3	0.499865627519484	Peripherals		peripheral
+ASV_78	-1.20476840988874	3	0.495	Peripherals		peripheral
+ASV_36	1.35244702946822	1	0.33425160697888	Peripherals		peripheral
+ASV_881	2.02156599915736	1	0.450612244897959	Peripherals		peripheral
+ASV_5	1.01788754462364	1	0.491083676268861	Peripherals		peripheral
+ASV_21	0.39656278705515	1	0.484429065743945	Peripherals		peripheral
+ASV_37	1.20906439310626	1	0.465236686390533	Peripherals		peripheral
+ASV_46	0.0620033022105773	1	0.396694214876033	Peripherals		peripheral
+ASV_73	0.922299120382336	1	0.355029585798817	Peripherals		peripheral
+ASV_58	0.492151211296457	1	0.4032	Peripherals		peripheral
+ASV_74	1.40024124158887	1	0.473372781065089	Peripherals		peripheral
+ASV_63	0.635533847658417	1	0.476686390532544	Peripherals		peripheral
+ASV_83	1.35244702946822	1	0.507432602670698	Peripherals		peripheral
+ASV_84	1.20906439310626	1	0.391111111111111	Peripherals		peripheral
+ASV_116	0.874504908261683	1	0.488909008601177	Peripherals		peripheral
+ASV_107	-0.750498303840528	1	0	Peripherals		ultra peripheral
+ASV_115	1.40024124158887	1	0.400181077410593	Peripherals		peripheral
+ASV_143	1.1612701809856	1	0.332409972299169	Peripherals		peripheral
+ASV_140	0.635533847658417	1	0.4992	Peripherals		peripheral
+ASV_870	-0.415938818995955	1	0.389273356401384	Peripherals		peripheral
+ASV_167	1.7825949385541	1	0.110726643598616	Peripherals		peripheral
+ASV_133	1.63921230219214	1	0	Peripherals		ultra peripheral
+ASV_245	0.348768574934497	1	0.4296875	Peripherals		peripheral
+ASV_195	0.444356999175803	1	0	Peripherals		ultra peripheral
+ASV_175	0.0620033022105773	1	0.384087791495199	Peripherals		peripheral
+ASV_244	0.39656278705515	1	0	Peripherals		ultra peripheral
+ASV_218	1.25685860522691	1	0	Peripherals		ultra peripheral
+ASV_252	0.874504908261683	1	0.512820512820513	Peripherals		peripheral
+ASV_259	0.014209090089924	1	0	Peripherals		ultra peripheral
+ASV_249	-0.0335851220307293	1	0.42603550295858	Peripherals		peripheral
+ASV_891	1.25685860522691	1	0.345679012345679	Peripherals		peripheral
+ASV_323	1.8781833627954	1	0	Peripherals		ultra peripheral
+ASV_277	1.7825949385541	1	0.48	Peripherals		peripheral
+ASV_438	0.205385938572537	1	0.5546875	Peripherals		peripheral
+ASV_1199	-0.846086728081835	1	0.375	Peripherals		peripheral
+ASV_1072	1.01788754462364	1	0.244897959183674	Peripherals		peripheral
+ASV_374	0.587739635537763	1	0.571428571428571	Peripherals		peripheral
+ASV_48	-0.463733031116609	1	0	Peripherals		ultra peripheral
+ASV_200	-0.989469364443795	1	0	Peripherals		ultra peripheral
+ASV_147	0.0620033022105773	1	0	Peripherals		ultra peripheral
+ASV_141	-1.13285200080575	1	0	Peripherals		ultra peripheral
+ASV_134	-0.989469364443795	1	0	Peripherals		ultra peripheral
+ASV_151	0.635533847658417	1	0.446124763705104	Peripherals		peripheral
+ASV_186	-1.18064621292641	1	0	Peripherals		ultra peripheral
+ASV_164	-0.607115667478569	1	0	Peripherals		ultra peripheral
+ASV_236	-0.368144606875302	1	0	Peripherals		ultra peripheral
+ASV_325	-0.941675152323141	1	0.235537190082645	Peripherals		peripheral
+ASV_227	-0.559321455357915	1	0	Peripherals		ultra peripheral
+ASV_111	-1.0850577886851	1	0	Peripherals		ultra peripheral
+ASV_314	-0.415938818995955	1	0	Peripherals		ultra peripheral
+ASV_224	-0.176967758392689	1	0	Peripherals		ultra peripheral
+ASV_243	0.157591726451884	1	0	Peripherals		ultra peripheral
+ASV_70	-0.893880940202488	1	0	Peripherals		ultra peripheral
+ASV_173	-0.415938818995955	1	0	Peripherals		ultra peripheral
+ASV_334	-1.18064621292641	1	0.290123456790123	Peripherals		peripheral
+ASV_256	-0.415938818995955	1	0	Peripherals		ultra peripheral
+ASV_427	-0.224761970513342	1	0	Peripherals		ultra peripheral
+ASV_135	-0.654909879599222	1	0	Peripherals		ultra peripheral
+ASV_242	-0.750498303840528	1	0	Peripherals		ultra peripheral
+ASV_267	-0.941675152323141	1	0	Peripherals		ultra peripheral
+ASV_302	-1.13285200080575	1	0	Peripherals		ultra peripheral
+ASV_166	-0.941675152323141	1	0	Peripherals		ultra peripheral
+ASV_265	-0.798292515961182	1	0	Peripherals		ultra peripheral
+ASV_465	-1.0850577886851	1	0	Peripherals		ultra peripheral
+ASV_786	-0.846086728081835	1	0	Peripherals		ultra peripheral
+ASV_160	-1.0850577886851	1	0	Peripherals		ultra peripheral
+ASV_744	-1.13285200080575	1	0.375	Peripherals		peripheral
+ASV_178	-1.18064621292641	1	0	Peripherals		ultra peripheral
+ASV_292	-1.18064621292641	1	0.207612456747405	Peripherals		peripheral
+ASV_304	-1.18064621292641	1	0	Peripherals		ultra peripheral
+ASV_524	-1.13285200080575	1	0	Peripherals		ultra peripheral
+ASV_4	1.83038915067475	1	0.309917355371901	Peripherals		peripheral
+ASV_22	-1.0850577886851	1	0.511296076099881	Peripherals		peripheral
+ASV_25	-0.941675152323141	1	0	Peripherals		ultra peripheral
+ASV_156	-1.03726357656445	1	0	Peripherals		ultra peripheral
+ASV_346	-1.18064621292641	1	0.489795918367347	Peripherals		peripheral
+ASV_228	0	9	0.110726643598616	Peripherals		peripheral
+ASV_3	0	9	0	Peripherals		ultra peripheral
+ASV_16	1.47755484393361	18	0.207612456747405	Peripherals		peripheral
+ASV_769	-0.281439017892117	18	0.308390022675737	Peripherals		peripheral
+ASV_338	-0.492518281311204	18	0	Peripherals		ultra peripheral
+ASV_381	-0.703597544730292	18	0	Peripherals		ultra peripheral
+ASV_11	0.64477977392475	2	0	Peripherals		ultra peripheral
+ASV_14	2.51758409652776	2	0	Module hubs	ASV_14	provincial hub
+ASV_65	1.39390150296595	2	0	Peripherals		ultra peripheral
+ASV_51	0.457499341664449	2	0	Peripherals		ultra peripheral
+ASV_113	1.39390150296595	2	0	Peripherals		ultra peripheral
+ASV_81	3.26670582556896	2	0	Module hubs	ASV_81	provincial hub
+ASV_196	-0.291622387376754	2	0	Peripherals		ultra peripheral
+ASV_556	0.457499341664449	2	0	Peripherals		ultra peripheral
+ASV_15	2.33030366426746	2	0	Peripherals		ultra peripheral
+ASV_62	3.07942539330866	2	0.5	Module hubs	ASV_62	connector hub
+ASV_69	1.20662107070565	2	0.611111111111111	Peripherals		peripheral
+ASV_23	-0.666183251897356	2	0.56	Peripherals		peripheral
+ASV_97	-0.104341955116453	2	0.5	Peripherals		peripheral
+ASV_87	-0.291622387376754	2	0.65625	Connectors	ASV_87	non hub connector
+ASV_38	1.39390150296595	2	0	Peripherals		ultra peripheral
+ASV_31	0.457499341664449	2	0	Peripherals		ultra peripheral
+ASV_94	0.270218909404148	2	0	Peripherals		ultra peripheral
+ASV_88	2.33030366426746	2	0.5	Peripherals		peripheral
+ASV_110	0.457499341664449	2	0	Peripherals		ultra peripheral
+ASV_202	0.64477977392475	2	0	Peripherals		ultra peripheral
+ASV_358	-0.291622387376754	2	0	Peripherals		ultra peripheral
+ASV_483	0.0829384771438476	2	0	Peripherals		ultra peripheral
+ASV_246	0.270218909404148	2	0.444444444444444	Peripherals		peripheral
+ASV_286	1.76846236748656	2	0	Peripherals		ultra peripheral
+ASV_590	-0.291622387376754	2	0.244897959183674	Peripherals		peripheral
+ASV_221	-0.478902819637055	2	0	Peripherals		ultra peripheral
+ASV_363	0.832060206185051	2	0	Peripherals		ultra peripheral
+ASV_432	-0.666183251897356	2	0	Peripherals		ultra peripheral
+ASV_365	-0.853463684157657	2	0	Peripherals		ultra peripheral
+ASV_109	-0.666183251897356	2	0	Peripherals		ultra peripheral
+ASV_203	-0.666183251897356	2	0	Peripherals		ultra peripheral
+ASV_197	0.270218909404148	2	0	Peripherals		ultra peripheral
+ASV_250	-0.853463684157657	2	0	Peripherals		ultra peripheral
+ASV_310	-0.291622387376754	2	0	Peripherals		ultra peripheral
+ASV_761	-0.478902819637055	2	0	Peripherals		ultra peripheral
+ASV_494	0.270218909404148	2	0	Peripherals		ultra peripheral
+ASV_707	-0.478902819637055	2	0	Peripherals		ultra peripheral
+ASV_126	-0.104341955116453	2	0	Peripherals		ultra peripheral
+ASV_319	0.457499341664449	2	0	Peripherals		ultra peripheral
+ASV_570	-0.291622387376754	2	0	Peripherals		ultra peripheral
+ASV_481	-0.666183251897356	2	0	Peripherals		ultra peripheral
+ASV_1237	-0.291622387376754	2	0	Peripherals		ultra peripheral
+ASV_368	-0.666183251897356	2	0	Peripherals		ultra peripheral
+ASV_309	-0.478902819637055	2	0	Peripherals		ultra peripheral
+ASV_396	-0.666183251897356	2	0.5	Peripherals		peripheral
+ASV_211	-0.853463684157657	2	0	Peripherals		ultra peripheral
+ASV_392	0.0829384771438476	2	0	Peripherals		ultra peripheral
+ASV_394	-0.478902819637055	2	0	Peripherals		ultra peripheral
+ASV_495	-0.291622387376754	2	0	Peripherals		ultra peripheral
+ASV_1126	-0.478902819637055	2	0	Peripherals		ultra peripheral
+ASV_412	-0.666183251897356	2	0	Peripherals		ultra peripheral
+ASV_583	-0.666183251897356	2	0	Peripherals		ultra peripheral
+ASV_405	-0.666183251897356	2	0	Peripherals		ultra peripheral
+ASV_1044	-0.853463684157657	2	0	Peripherals		ultra peripheral
+ASV_422	-0.853463684157657	2	0	Peripherals		ultra peripheral
+ASV_1023	-0.666183251897356	2	0	Peripherals		ultra peripheral
+ASV_630	-0.853463684157657	2	0	Peripherals		ultra peripheral
+ASV_371	-0.853463684157657	2	0	Peripherals		ultra peripheral
+ASV_437	-0.853463684157657	2	0	Peripherals		ultra peripheral
+ASV_7	0.457499341664449	2	0	Peripherals		ultra peripheral
+ASV_9	-0.666183251897356	2	0	Peripherals		ultra peripheral
+ASV_8	-0.666183251897356	2	0	Peripherals		ultra peripheral
+ASV_18	-0.853463684157657	2	0	Peripherals		ultra peripheral
+ASV_26	-0.853463684157657	2	0	Peripherals		ultra peripheral
+ASV_27	-0.478902819637055	2	0	Peripherals		ultra peripheral
+ASV_59	-0.666183251897356	2	0	Peripherals		ultra peripheral
+ASV_119	-0.666183251897356	2	0	Peripherals		ultra peripheral
+ASV_99	-0.853463684157657	2	0	Peripherals		ultra peripheral
+ASV_201	-0.853463684157657	2	0	Peripherals		ultra peripheral
+ASV_341	-0.666183251897356	2	0	Peripherals		ultra peripheral
+ASV_52	0	16	0	Peripherals		ultra peripheral
+ASV_90	0	16	0	Peripherals		ultra peripheral
+ASV_339	-1.22474487139159	16	0	Peripherals		ultra peripheral
+ASV_13	1.22474487139159	16	0	Peripherals		ultra peripheral
+ASV_104	0	21	0	Peripherals		ultra peripheral
+ASV_39	0	21	0	Peripherals		ultra peripheral
+ASV_299	0.218217890235992	11	0.095	Peripherals		peripheral
+ASV_257	0.87287156094397	11	0.49560546875	Peripherals		peripheral
+ASV_316	-1.09108945117996	11	0	Peripherals		ultra peripheral
+ASV_297	0.670820393249937	5	0	Peripherals		ultra peripheral
+ASV_283	0.670820393249937	5	0	Peripherals		ultra peripheral
+ASV_232	-1.56524758424985	5	0	Peripherals		ultra peripheral
+ASV_72	-0.447213595499958	5	0	Peripherals		ultra peripheral
+ASV_139	0.670820393249937	5	0	Peripherals		ultra peripheral
+ASV_103	0	6	0	Peripherals		ultra peripheral
+ASV_34	0	6	0.444444444444444	Peripherals		peripheral
+ASV_293	-0.577350269189626	7	0	Peripherals		ultra peripheral
+ASV_1219	-0.577350269189626	7	0	Peripherals		ultra peripheral
+ASV_86	1.15470053837925	7	0	Peripherals		ultra peripheral
+ASV_407	0	14	0	Peripherals		ultra peripheral
+ASV_118	0	14	0	Peripherals		ultra peripheral
+ASV_397	0	4	0	Peripherals		ultra peripheral
+ASV_212	0	4	0	Peripherals		ultra peripheral
+ASV_474	0	10	0	Peripherals		ultra peripheral
+ASV_294	0	10	0	Peripherals		ultra peripheral
+ASV_423	0	8	0	Peripherals		ultra peripheral
+ASV_225	0	8	0	Peripherals		ultra peripheral
+ASV_545	0	17	0	Peripherals		ultra peripheral
+ASV_217	0	17	0.5	Peripherals		peripheral
+ASV_342	-0.5	13	0	Peripherals		ultra peripheral
+ASV_635	-0.5	13	0	Peripherals		ultra peripheral
+ASV_616	-0.5	13	0	Peripherals		ultra peripheral
+ASV_229	1.5	13	0	Peripherals		ultra peripheral
+ASV_391	0	12	0	Peripherals		ultra peripheral
+ASV_248	0	12	0	Peripherals		ultra peripheral
+ASV_290	-0.577350269189626	20	0	Peripherals		ultra peripheral
+ASV_550	-0.577350269189626	20	0	Peripherals		ultra peripheral
+ASV_254	1.15470053837925	20	0	Peripherals		ultra peripheral
+ASV_410	0	19	0	Peripherals		ultra peripheral
+ASV_885	0	19	0	Peripherals		ultra peripheral
+ASV_357	0	15	0	Peripherals		ultra peripheral
+ASV_291	0	15	0	Peripherals		ultra peripheral
