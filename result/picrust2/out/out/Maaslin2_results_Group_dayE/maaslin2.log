@@ -1,0 +1,316 @@
+2023-12-28 14:49:02.223669 INFO::Writing function arguments to log file
+2023-12-28 14:49:02.233831 DEBUG::Function arguments
+2023-12-28 14:49:02.237394 DEBUG::Output folder: Maaslin2_results_Group_dayE
+2023-12-28 14:49:02.240857 DEBUG::Min Abundance: 0.000000
+2023-12-28 14:49:02.244612 DEBUG::Min Prevalence: 0.100000
+2023-12-28 14:49:02.249956 DEBUG::Normalization: TSS
+2023-12-28 14:49:02.254394 DEBUG::Transform: AST
+2023-12-28 14:49:02.257754 DEBUG::Analysis method: LM
+2023-12-28 14:49:02.260867 DEBUG::Max significance: 0.250000
+2023-12-28 14:49:02.264763 DEBUG::Random effects:
+2023-12-28 14:49:02.270029 DEBUG::Fixed effects: Group_dayE
+2023-12-28 14:49:02.310912 DEBUG::Correction method: BH
+2023-12-28 14:49:02.318281 DEBUG::Standardize: TRUE
+2023-12-28 14:49:02.358385 DEBUG::Cores: 1
+2023-12-28 14:49:02.366481 INFO::Verifying options selected are valid
+2023-12-28 14:49:02.38329 INFO::Determining format of input files
+2023-12-28 14:49:02.398219 INFO::Input format is data samples as rows and metadata samples as rows
+2023-12-28 14:49:02.41984 DEBUG::A total of 68 samples were found in both the data and metadata
+2023-12-28 14:49:02.42619 DEBUG::Reordering data/metadata to use same sample ordering
+2023-12-28 14:49:02.437354 INFO::Formula for fixed effects: expr ~  Group_dayE
+2023-12-28 14:49:02.451479 INFO::Filter data based on min abundance and min prevalence
+2023-12-28 14:49:02.464146 INFO::Total samples in data: 68
+2023-12-28 14:49:02.477198 INFO::Min samples required with min abundance for a feature not to be filtered: 6.800000
+2023-12-28 14:49:02.497465 INFO::Total filtered features: 12
+2023-12-28 14:49:02.510784 INFO::Filtered feature names from abundance and prevalence filtering: ko04740, ko05214, ko04916, ko04114, ko04270, ko04744, ko04745, ko04971, ko04970, ko04912, ko04720, ko04722
+2023-12-28 14:49:02.544849 INFO::Total filtered features with variance filtering: 0
+2023-12-28 14:49:02.56297 INFO::Filtered feature names from variance filtering:
+2023-12-28 14:49:02.573242 INFO::Running selected normalization method: TSS
+2023-12-28 14:49:02.619814 INFO::Applying z-score to standardize continuous metadata
+2023-12-28 14:49:02.635858 INFO::Running selected transform method: AST
+2023-12-28 14:49:02.656224 INFO::Running selected analysis method: LM
+2023-12-28 14:49:02.682463 INFO::Fitting model to feature number 1, ko05340
+2023-12-28 14:49:02.699697 INFO::Fitting model to feature number 2, ko00564
+2023-12-28 14:49:02.728797 INFO::Fitting model to feature number 3, ko00680
+2023-12-28 14:49:02.767832 INFO::Fitting model to feature number 4, ko00562
+2023-12-28 14:49:02.794084 INFO::Fitting model to feature number 5, ko00563
+2023-12-28 14:49:02.813396 INFO::Fitting model to feature number 6, ko03030
+2023-12-28 14:49:02.844588 INFO::Fitting model to feature number 7, ko00561
+2023-12-28 14:49:02.860435 INFO::Fitting model to feature number 8, ko00440
+2023-12-28 14:49:02.877441 INFO::Fitting model to feature number 9, ko00250
+2023-12-28 14:49:02.902512 INFO::Fitting model to feature number 10, ko00740
+2023-12-28 14:49:02.913196 INFO::Fitting model to feature number 11, ko04111
+2023-12-28 14:49:02.926541 INFO::Fitting model to feature number 12, ko04940
+2023-12-28 14:49:02.959173 INFO::Fitting model to feature number 13, ko00010
+2023-12-28 14:49:02.976389 INFO::Fitting model to feature number 14, ko05412
+2023-12-28 14:49:02.994104 INFO::Fitting model to feature number 15, ko00195
+2023-12-28 14:49:03.033212 INFO::Fitting model to feature number 16, ko03450
+2023-12-28 14:49:03.05292 INFO::Fitting model to feature number 17, ko00760
+2023-12-28 14:49:03.073362 INFO::Fitting model to feature number 18, ko00920
+2023-12-28 14:49:03.120512 INFO::Fitting model to feature number 19, ko00311
+2023-12-28 14:49:03.139398 INFO::Fitting model to feature number 20, ko00310
+2023-12-28 14:49:03.158936 INFO::Fitting model to feature number 21, ko04146
+2023-12-28 14:49:03.203922 INFO::Fitting model to feature number 22, ko00600
+2023-12-28 14:49:03.223559 INFO::Fitting model to feature number 23, ko04141
+2023-12-28 14:49:03.249763 INFO::Fitting model to feature number 24, ko04142
+2023-12-28 14:49:03.306637 INFO::Fitting model to feature number 25, ko00604
+2023-12-28 14:49:03.380656 INFO::Fitting model to feature number 26, ko04260
+2023-12-28 14:49:03.401773 INFO::Fitting model to feature number 27, ko03040
+2023-12-28 14:49:03.453626 INFO::Fitting model to feature number 28, ko04110
+2023-12-28 14:49:03.482812 INFO::Fitting model to feature number 29, ko05142
+2023-12-28 14:49:03.502746 INFO::Fitting model to feature number 30, ko00513
+2023-12-28 14:49:03.55562 INFO::Fitting model to feature number 31, ko04973
+2023-12-28 14:49:03.579775 INFO::Fitting model to feature number 32, ko00510
+2023-12-28 14:49:03.600878 INFO::Fitting model to feature number 33, ko05110
+2023-12-28 14:49:03.638885 INFO::Fitting model to feature number 34, ko04974
+2023-12-28 14:49:03.656142 INFO::Fitting model to feature number 35, ko04976
+2023-12-28 14:49:03.675271 INFO::Fitting model to feature number 36, ko00450
+2023-12-28 14:49:03.710634 INFO::Fitting model to feature number 37, ko01051
+2023-12-28 14:49:03.728217 INFO::Fitting model to feature number 38, ko00565
+2023-12-28 14:49:03.74705 INFO::Fitting model to feature number 39, ko00524
+2023-12-28 14:49:03.79203 INFO::Fitting model to feature number 40, ko00300
+2023-12-28 14:49:03.816518 INFO::Fitting model to feature number 41, ko05222
+2023-12-28 14:49:03.837037 INFO::Fitting model to feature number 42, ko00514
+2023-12-28 14:49:03.873792 INFO::Fitting model to feature number 43, ko05416
+2023-12-28 14:49:03.88914 INFO::Fitting model to feature number 44, ko00260
+2023-12-28 14:49:03.909297 INFO::Fitting model to feature number 45, ko00190
+2023-12-28 14:49:03.943413 INFO::Fitting model to feature number 46, ko03440
+2023-12-28 14:49:03.957898 INFO::Fitting model to feature number 47, ko00750
+2023-12-28 14:49:03.971295 INFO::Fitting model to feature number 48, ko00950
+2023-12-28 14:49:04.028351 INFO::Fitting model to feature number 49, ko00592
+2023-12-28 14:49:04.0499 INFO::Fitting model to feature number 50, ko00591
+2023-12-28 14:49:04.06809 INFO::Fitting model to feature number 51, ko00590
+2023-12-28 14:49:04.112806 INFO::Fitting model to feature number 52, ko00061
+2023-12-28 14:49:04.126374 INFO::Fitting model to feature number 53, ko03070
+2023-12-28 14:49:04.143061 INFO::Fitting model to feature number 54, ko00253
+2023-12-28 14:49:04.173729 INFO::Fitting model to feature number 55, ko03060
+2023-12-28 14:49:04.19012 INFO::Fitting model to feature number 56, ko00380
+2023-12-28 14:49:04.206737 INFO::Fitting model to feature number 57, ko00500
+2023-12-28 14:49:04.232987 INFO::Fitting model to feature number 58, ko05120
+2023-12-28 14:49:04.244507 INFO::Fitting model to feature number 59, ko05322
+2023-12-28 14:49:04.255055 INFO::Fitting model to feature number 60, ko04964
+2023-12-28 14:49:04.279465 INFO::Fitting model to feature number 61, ko04962
+2023-12-28 14:49:04.291147 INFO::Fitting model to feature number 62, ko00625
+2023-12-28 14:49:04.304047 INFO::Fitting model to feature number 63, ko00624
+2023-12-28 14:49:04.372994 INFO::Fitting model to feature number 64, ko00627
+2023-12-28 14:49:04.388693 INFO::Fitting model to feature number 65, ko00626
+2023-12-28 14:49:04.403177 INFO::Fitting model to feature number 66, ko00621
+2023-12-28 14:49:04.430946 INFO::Fitting model to feature number 67, ko00620
+2023-12-28 14:49:04.444642 INFO::Fitting model to feature number 68, ko00623
+2023-12-28 14:49:04.457159 INFO::Fitting model to feature number 69, ko00622
+2023-12-28 14:49:04.488162 INFO::Fitting model to feature number 70, ko00270
+2023-12-28 14:49:04.500749 INFO::Fitting model to feature number 71, ko00940
+2023-12-28 14:49:04.537366 INFO::Fitting model to feature number 72, ko00941
+2023-12-28 14:49:04.573359 INFO::Fitting model to feature number 73, ko01053
+2023-12-28 14:49:04.586692 INFO::Fitting model to feature number 74, ko00100
+2023-12-28 14:49:04.600733 INFO::Fitting model to feature number 75, ko00945
+2023-12-28 14:49:04.635476 INFO::Fitting model to feature number 76, ko05016
+2023-12-28 14:49:04.65613 INFO::Fitting model to feature number 77, ko00071
+2023-12-28 14:49:04.670828 INFO::Fitting model to feature number 78, ko00072
+2023-12-28 14:49:04.71457 INFO::Fitting model to feature number 79, ko05219
+2023-12-28 14:49:04.735072 INFO::Fitting model to feature number 80, ko05215
+2023-12-28 14:49:04.747355 INFO::Fitting model to feature number 81, ko05211
+2023-12-28 14:49:04.779874 INFO::Fitting model to feature number 82, ko05210
+2023-12-28 14:49:04.793315 INFO::Fitting model to feature number 83, ko01055
+2023-12-28 14:49:04.812007 INFO::Fitting model to feature number 84, ko04910
+2023-12-28 14:49:04.84246 INFO::Fitting model to feature number 85, ko00531
+2023-12-28 14:49:04.858815 INFO::Fitting model to feature number 86, ko00360
+2023-12-28 14:49:04.878143 INFO::Fitting model to feature number 87, ko00633
+2023-12-28 14:49:04.909972 INFO::Fitting model to feature number 88, ko00630
+2023-12-28 14:49:04.923879 INFO::Fitting model to feature number 89, ko00363
+2023-12-28 14:49:04.936725 INFO::Fitting model to feature number 90, ko00364
+2023-12-28 14:49:04.976128 INFO::Fitting model to feature number 91, ko05130
+2023-12-28 14:49:05.000426 INFO::Fitting model to feature number 92, ko04115
+2023-12-28 14:49:05.022499 INFO::Fitting model to feature number 93, ko00121
+2023-12-28 14:49:05.059501 INFO::Fitting model to feature number 94, ko04914
+2023-12-28 14:49:05.074187 INFO::Fitting model to feature number 95, ko00430
+2023-12-28 14:49:05.091989 INFO::Fitting model to feature number 96, ko02010
+2023-12-28 14:49:05.127355 INFO::Fitting model to feature number 97, ko00130
+2023-12-28 14:49:05.144794 INFO::Fitting model to feature number 98, ko03050
+2023-12-28 14:49:05.161862 INFO::Fitting model to feature number 99, ko00361
+2023-12-28 14:49:05.207814 INFO::Fitting model to feature number 100, ko00040
+2023-12-28 14:49:05.222967 INFO::Fitting model to feature number 101, ko00730
+2023-12-28 14:49:05.246352 INFO::Fitting model to feature number 102, ko00362
+2023-12-28 14:49:05.284079 INFO::Fitting model to feature number 103, ko01040
+2023-12-28 14:49:05.301866 INFO::Fitting model to feature number 104, ko00603
+2023-12-28 14:49:05.318232 INFO::Fitting model to feature number 105, ko03018
+2023-12-28 14:49:05.365895 INFO::Fitting model to feature number 106, ko00281
+2023-12-28 14:49:05.380474 INFO::Fitting model to feature number 107, ko00280
+2023-12-28 14:49:05.394711 INFO::Fitting model to feature number 108, ko03013
+2023-12-28 14:49:05.428266 INFO::Fitting model to feature number 109, ko04626
+2023-12-28 14:49:05.444687 INFO::Fitting model to feature number 110, ko05200
+2023-12-28 14:49:05.456664 INFO::Fitting model to feature number 111, ko00601
+2023-12-28 14:49:05.482113 INFO::Fitting model to feature number 112, ko03015
+2023-12-28 14:49:05.493977 INFO::Fitting model to feature number 113, ko00312
+2023-12-28 14:49:05.506074 INFO::Fitting model to feature number 114, ko05020
+2023-12-28 14:49:05.587388 INFO::Fitting model to feature number 115, ko05143
+2023-12-28 14:49:05.603191 INFO::Fitting model to feature number 116, ko00523
+2023-12-28 14:49:05.620753 INFO::Fitting model to feature number 117, ko00520
+2023-12-28 14:49:05.652625 INFO::Fitting model to feature number 118, ko00521
+2023-12-28 14:49:05.672543 INFO::Fitting model to feature number 119, ko05146
+2023-12-28 14:49:05.693579 INFO::Fitting model to feature number 120, ko05145
+2023-12-28 14:49:05.729112 INFO::Fitting model to feature number 121, ko05144
+2023-12-28 14:49:05.745211 INFO::Fitting model to feature number 122, ko00052
+2023-12-28 14:49:05.763506 INFO::Fitting model to feature number 123, ko00053
+2023-12-28 14:49:05.794257 INFO::Fitting model to feature number 124, ko00051
+2023-12-28 14:49:05.808104 INFO::Fitting model to feature number 125, ko00401
+2023-12-28 14:49:05.837873 INFO::Fitting model to feature number 126, ko00400
+2023-12-28 14:49:05.867546 INFO::Fitting model to feature number 127, ko04020
+2023-12-28 14:49:05.87978 INFO::Fitting model to feature number 128, ko00350
+2023-12-28 14:49:05.904393 INFO::Fitting model to feature number 129, ko00480
+2023-12-28 14:49:05.937987 INFO::Fitting model to feature number 130, ko00643
+2023-12-28 14:49:05.961884 INFO::Fitting model to feature number 131, ko00642
+2023-12-28 14:49:05.975973 INFO::Fitting model to feature number 132, ko00640
+2023-12-28 14:49:06.015397 INFO::Fitting model to feature number 133, ko00720
+2023-12-28 14:49:06.029733 INFO::Fitting model to feature number 134, ko00960
+2023-12-28 14:49:06.042449 INFO::Fitting model to feature number 135, ko02020
+2023-12-28 14:49:06.071915 INFO::Fitting model to feature number 136, ko00120
+2023-12-28 14:49:06.090665 INFO::Fitting model to feature number 137, ko00965
+2023-12-28 14:49:06.104335 INFO::Fitting model to feature number 138, ko03008
+2023-12-28 14:49:06.139151 INFO::Fitting model to feature number 139, ko05414
+2023-12-28 14:49:06.152933 INFO::Fitting model to feature number 140, ko00290
+2023-12-28 14:49:06.168072 INFO::Fitting model to feature number 141, ko04614
+2023-12-28 14:49:06.199257 INFO::Fitting model to feature number 142, ko03410
+2023-12-28 14:49:06.213012 INFO::Fitting model to feature number 143, ko05010
+2023-12-28 14:49:06.230265 INFO::Fitting model to feature number 144, ko05012
+2023-12-28 14:49:06.280142 INFO::Fitting model to feature number 145, ko00980
+2023-12-28 14:49:06.297329 INFO::Fitting model to feature number 146, ko00410
+2023-12-28 14:49:06.312894 INFO::Fitting model to feature number 147, ko00983
+2023-12-28 14:49:06.353324 INFO::Fitting model to feature number 148, ko05150
+2023-12-28 14:49:06.387847 INFO::Fitting model to feature number 149, ko00791
+2023-12-28 14:49:06.407751 INFO::Fitting model to feature number 150, ko00790
+2023-12-28 14:49:06.443264 INFO::Fitting model to feature number 151, ko05131
+2023-12-28 14:49:06.463377 INFO::Fitting model to feature number 152, ko00020
+2023-12-28 14:49:06.480346 INFO::Fitting model to feature number 153, ko00710
+2023-12-28 14:49:06.524776 INFO::Fitting model to feature number 154, ko02060
+2023-12-28 14:49:06.539634 INFO::Fitting model to feature number 155, ko00340
+2023-12-28 14:49:06.555525 INFO::Fitting model to feature number 156, ko00785
+2023-12-28 14:49:06.584984 INFO::Fitting model to feature number 157, ko00550
+2023-12-28 14:49:06.597483 INFO::Fitting model to feature number 158, ko00650
+2023-12-28 14:49:06.610018 INFO::Fitting model to feature number 159, ko02030
+2023-12-28 14:49:06.634909 INFO::Fitting model to feature number 160, ko03320
+2023-12-28 14:49:06.647831 INFO::Fitting model to feature number 161, ko04612
+2023-12-28 14:49:06.666973 INFO::Fitting model to feature number 162, ko04621
+2023-12-28 14:49:06.699053 INFO::Fitting model to feature number 163, ko04622
+2023-12-28 14:49:06.715983 INFO::Fitting model to feature number 164, ko00910
+2023-12-28 14:49:06.730542 INFO::Fitting model to feature number 165, ko00460
+2023-12-28 14:49:06.761887 INFO::Fitting model to feature number 166, ko00830
+2023-12-28 14:49:06.779233 INFO::Fitting model to feature number 167, ko00780
+2023-12-28 14:49:06.793458 INFO::Fitting model to feature number 168, ko00511
+2023-12-28 14:49:06.827108 INFO::Fitting model to feature number 169, ko00970
+2023-12-28 14:49:06.8413 INFO::Fitting model to feature number 170, ko00030
+2023-12-28 14:49:06.853667 INFO::Fitting model to feature number 171, ko04972
+2023-12-28 14:49:06.883351 INFO::Fitting model to feature number 172, ko00232
+2023-12-28 14:49:06.897843 INFO::Fitting model to feature number 173, ko00230
+2023-12-28 14:49:06.912633 INFO::Fitting model to feature number 174, ko04122
+2023-12-28 14:49:06.949203 INFO::Fitting model to feature number 175, ko00540
+2023-12-28 14:49:06.963059 INFO::Fitting model to feature number 176, ko05014
+2023-12-28 14:49:07.001971 INFO::Fitting model to feature number 177, ko00660
+2023-12-28 14:49:07.04221 INFO::Fitting model to feature number 178, ko03020
+2023-12-28 14:49:07.064777 INFO::Fitting model to feature number 179, ko04512
+2023-12-28 14:49:07.080896 INFO::Fitting model to feature number 180, ko00982
+2023-12-28 14:49:07.132385 INFO::Fitting model to feature number 181, ko03010
+2023-12-28 14:49:07.150683 INFO::Fitting model to feature number 182, ko00140
+2023-12-28 14:49:07.163935 INFO::Fitting model to feature number 183, ko05100
+2023-12-28 14:49:07.197483 INFO::Fitting model to feature number 184, ko00860
+2023-12-28 14:49:07.210319 INFO::Fitting model to feature number 185, ko05410
+2023-12-28 14:49:07.226514 INFO::Fitting model to feature number 186, ko00330
+2023-12-28 14:49:07.259291 INFO::Fitting model to feature number 187, ko04080
+2023-12-28 14:49:07.277693 INFO::Fitting model to feature number 188, ko04514
+2023-12-28 14:49:07.305996 INFO::Fitting model to feature number 189, ko00908
+2023-12-28 14:49:07.363715 INFO::Fitting model to feature number 190, ko04930
+2023-12-28 14:49:07.384076 INFO::Fitting model to feature number 191, ko03430
+2023-12-28 14:49:07.398758 INFO::Fitting model to feature number 192, ko00906
+2023-12-28 14:49:07.431187 INFO::Fitting model to feature number 193, ko00900
+2023-12-28 14:49:07.44458 INFO::Fitting model to feature number 194, ko00901
+2023-12-28 14:49:07.463467 INFO::Fitting model to feature number 195, ko00903
+2023-12-28 14:49:07.491794 INFO::Fitting model to feature number 196, ko00471
+2023-12-28 14:49:07.506997 INFO::Fitting model to feature number 197, ko00472
+2023-12-28 14:49:07.520795 INFO::Fitting model to feature number 198, ko00473
+2023-12-28 14:49:07.557618 INFO::Fitting model to feature number 199, ko05111
+2023-12-28 14:49:07.578449 INFO::Fitting model to feature number 200, ko04510
+2023-12-28 14:49:07.593296 INFO::Fitting model to feature number 201, ko04810
+2023-12-28 14:49:07.63055 INFO::Fitting model to feature number 202, ko04210
+2023-12-28 14:49:07.649142 INFO::Fitting model to feature number 203, ko00240
+2023-12-28 14:49:07.663374 INFO::Fitting model to feature number 204, ko04011
+2023-12-28 14:49:07.695615 INFO::Fitting model to feature number 205, ko00944
+2023-12-28 14:49:07.70963 INFO::Fitting model to feature number 206, ko04113
+2023-12-28 14:49:07.738717 INFO::Fitting model to feature number 207, ko04070
+2023-12-28 14:49:07.779731 INFO::Fitting model to feature number 208, ko03420
+2023-12-28 14:49:07.808124 INFO::Fitting model to feature number 209, ko00770
+2023-12-28 14:49:07.822834 INFO::Fitting model to feature number 210, ko02040
+2023-12-28 14:49:07.85739 INFO::Fitting model to feature number 211, ko00670
+2023-12-28 14:49:07.875536 INFO::Fitting model to feature number 212, ko04920
+2023-12-28 14:49:07.88856 INFO::Fitting model to feature number 213, ko04144
+2023-12-28 14:49:07.914291 INFO::Fitting model to feature number 214, ko00930
+2023-12-28 14:49:07.926544 INFO::Fitting model to feature number 215, ko04112
+2023-12-28 14:49:07.938653 INFO::Fitting model to feature number 216, ko04075
+2023-12-28 14:49:08.023151 INFO::Counting total values for each feature
+2023-12-28 14:49:08.048148 INFO::Writing filtered data to file Maaslin2_results_Group_dayE/features/filtered_data.tsv
+2023-12-28 14:49:08.139055 INFO::Writing filtered, normalized data to file Maaslin2_results_Group_dayE/features/filtered_data_norm.tsv
+2023-12-28 14:49:08.252627 INFO::Writing filtered, normalized, transformed data to file Maaslin2_results_Group_dayE/features/filtered_data_norm_transformed.tsv
+2023-12-28 14:49:08.456123 WARNING::Deleting existing residuals file: Maaslin2_results_Group_dayE/fits/residuals.rds
+2023-12-28 14:49:08.474155 INFO::Writing residuals to file Maaslin2_results_Group_dayE/fits/residuals.rds
+2023-12-28 14:49:08.517508 WARNING::Deleting existing fitted file: Maaslin2_results_Group_dayE/fits/fitted.rds
+2023-12-28 14:49:08.539087 INFO::Writing fitted values to file Maaslin2_results_Group_dayE/fits/fitted.rds
+2023-12-28 14:49:08.559234 INFO::Writing all results to file (ordered by increasing q-values): Maaslin2_results_Group_dayE/all_results.tsv
+2023-12-28 14:49:08.605728 INFO::Writing the significant results (those which are less than or equal to the threshold of 0.250000 ) to file (ordered by increasing q-values): Maaslin2_results_Group_dayE/significant_results.tsv
+2023-12-28 14:49:08.628027 INFO::Writing heatmap of significant results to file: Maaslin2_results_Group_dayE/heatmap.pdf
+2023-12-28 14:49:08.678211 INFO::Writing association plots (one for each significant association) to output folder: Maaslin2_results_Group_dayE
+2023-12-28 14:49:08.71063 INFO::Plotting associations from most to least significant, grouped by metadata
+2023-12-28 14:49:08.735434 INFO::Plotting data for metadata number 1, Group_dayE
+2023-12-28 14:49:08.753213 INFO::Creating boxplot for categorical data, Group_dayE vs ko00564
+2023-12-28 14:49:09.308361 INFO::Creating boxplot for categorical data, Group_dayE vs ko05142
+2023-12-28 14:49:09.763676 INFO::Creating boxplot for categorical data, Group_dayE vs ko01051
+2023-12-28 14:49:10.169689 INFO::Creating boxplot for categorical data, Group_dayE vs ko00627
+2023-12-28 14:49:10.469947 INFO::Creating boxplot for categorical data, Group_dayE vs ko00730
+2023-12-28 14:49:10.757516 INFO::Creating boxplot for categorical data, Group_dayE vs ko05143
+2023-12-28 14:49:11.065527 INFO::Creating boxplot for categorical data, Group_dayE vs ko00643
+2023-12-28 14:49:11.409633 INFO::Creating boxplot for categorical data, Group_dayE vs ko02030
+2023-12-28 14:49:11.686286 INFO::Creating boxplot for categorical data, Group_dayE vs ko00030
+2023-12-28 14:49:12.078541 INFO::Creating boxplot for categorical data, Group_dayE vs ko04113
+2023-12-28 14:49:12.393814 INFO::Creating boxplot for categorical data, Group_dayE vs ko02040
+2023-12-28 14:49:12.730084 INFO::Creating boxplot for categorical data, Group_dayE vs ko00626
+2023-12-28 14:49:13.040125 INFO::Creating boxplot for categorical data, Group_dayE vs ko00563
+2023-12-28 14:49:13.405735 INFO::Creating boxplot for categorical data, Group_dayE vs ko04973
+2023-12-28 14:49:13.728884 INFO::Creating boxplot for categorical data, Group_dayE vs ko00450
+2023-12-28 14:49:14.036214 INFO::Creating boxplot for categorical data, Group_dayE vs ko00350
+2023-12-28 14:49:14.328566 INFO::Creating boxplot for categorical data, Group_dayE vs ko00540
+2023-12-28 14:49:14.606211 INFO::Creating boxplot for categorical data, Group_dayE vs ko00565
+2023-12-28 14:49:15.035564 INFO::Creating boxplot for categorical data, Group_dayE vs ko04626
+2023-12-28 14:49:15.397511 INFO::Creating boxplot for categorical data, Group_dayE vs ko00330
+2023-12-28 14:49:15.707677 INFO::Creating boxplot for categorical data, Group_dayE vs ko04930
+2023-12-28 14:49:16.002624 INFO::Creating boxplot for categorical data, Group_dayE vs ko04962
+2023-12-28 14:49:16.344747 INFO::Creating boxplot for categorical data, Group_dayE vs ko00053
+2023-12-28 14:49:16.626101 INFO::Creating boxplot for categorical data, Group_dayE vs ko00790
+2023-12-28 14:49:16.920384 INFO::Creating boxplot for categorical data, Group_dayE vs ko00650
+2023-12-28 14:49:17.390324 INFO::Creating boxplot for categorical data, Group_dayE vs ko00480
+2023-12-28 14:49:17.705718 INFO::Creating boxplot for categorical data, Group_dayE vs ko00642
+2023-12-28 14:49:18.020104 INFO::Creating boxplot for categorical data, Group_dayE vs ko00195
+2023-12-28 14:49:18.331077 INFO::Creating boxplot for categorical data, Group_dayE vs ko00941
+2023-12-28 14:49:18.697559 INFO::Creating boxplot for categorical data, Group_dayE vs ko00983
+2023-12-28 14:49:19.054553 INFO::Creating boxplot for categorical data, Group_dayE vs ko04144
+2023-12-28 14:49:19.365929 INFO::Creating boxplot for categorical data, Group_dayE vs ko00300
+2023-12-28 14:49:19.727382 INFO::Creating boxplot for categorical data, Group_dayE vs ko05322
+2023-12-28 14:49:20.167195 INFO::Creating boxplot for categorical data, Group_dayE vs ko00100
+2023-12-28 14:49:20.550058 INFO::Creating boxplot for categorical data, Group_dayE vs ko00051
+2023-12-28 14:49:21.173092 INFO::Creating boxplot for categorical data, Group_dayE vs ko00590
+2023-12-28 14:49:21.670865 INFO::Creating boxplot for categorical data, Group_dayE vs ko03060
+2023-12-28 14:49:22.030706 INFO::Creating boxplot for categorical data, Group_dayE vs ko00380
+2023-12-28 14:49:22.33498 INFO::Creating boxplot for categorical data, Group_dayE vs ko04910
+2023-12-28 14:49:22.696961 INFO::Creating boxplot for categorical data, Group_dayE vs ko00430
+2023-12-28 14:49:23.091671 INFO::Creating boxplot for categorical data, Group_dayE vs ko03008
+2023-12-28 14:49:23.594131 INFO::Creating boxplot for categorical data, Group_dayE vs ko00903
+2023-12-28 14:49:24.024497 INFO::Creating boxplot for categorical data, Group_dayE vs ko00500
+2023-12-28 14:49:24.313571 INFO::Creating boxplot for categorical data, Group_dayE vs ko00945
+2023-12-28 14:49:24.607746 INFO::Creating boxplot for categorical data, Group_dayE vs ko04512
+2023-12-28 14:49:24.902288 INFO::Creating boxplot for categorical data, Group_dayE vs ko04514
+2023-12-28 14:49:25.299264 INFO::Creating boxplot for categorical data, Group_dayE vs ko04510
+2023-12-28 14:49:25.616818 INFO::Creating boxplot for categorical data, Group_dayE vs ko04810
+2023-12-28 14:49:25.940909 INFO::Creating boxplot for categorical data, Group_dayE vs ko05219
+2023-12-28 14:49:26.255266 INFO::Creating boxplot for categorical data, Group_dayE vs ko04964
+2023-12-28 14:49:26.60075 INFO::Creating boxplot for categorical data, Group_dayE vs ko04112
+2023-12-28 14:49:26.949213 INFO::Creating boxplot for categorical data, Group_dayE vs ko05412
+2023-12-28 14:49:27.277674 INFO::Creating boxplot for categorical data, Group_dayE vs ko05414
+2023-12-28 14:49:27.620325 INFO::Creating boxplot for categorical data, Group_dayE vs ko00052
+2023-12-28 14:49:27.958375 INFO::Creating boxplot for categorical data, Group_dayE vs ko05410

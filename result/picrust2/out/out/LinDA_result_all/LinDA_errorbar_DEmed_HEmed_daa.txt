@@ -1,0 +1,3 @@
+feature	method	group1	group2	p_values	adj_method	p_adjust	pathway_name	pathway_description	pathway_class	pathway_map
+ko00565	LinDA	DEmed	HEmed	0.0114721866170282	none	0.0114721866170282	Ether lipid metabolism	NA	Metabolism; Lipid metabolism	Ether lipid metabolism
+ko00232	LinDA	DEmed	HEmed	0.0461051428681875	none	0.0461051428681875	Caffeine metabolism	NA	Metabolism; Biosynthesis of other secondary metabolites	Caffeine metabolism
