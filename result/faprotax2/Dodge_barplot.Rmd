@@ -1,0 +1,190 @@
+[TOC]
+
+
+
+```{r}
+# 软件检测和安装
+
+library(ggplot2)
+library(dplyr)
+```
+
+## 工作流程1
+
+```{r}
+# Set file paths
+metadata_file <- "C:/16S/result/faprotax2/metadata.txt"
+all_group_longformat_file <- "C:/16S/result/faprotax2/all_group_longformat.txt"
+
+# Read metadata file
+metadata <- read.table(metadata_file, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+# C:/16S/result/faprotax2/all_group_longformat.txt
+# Read all_group_longformat file
+all_group_longformat <- read.table(all_group_longformat_file, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+
+# Preview data
+# print(metadata)
+# print(all_group_longformat)
+
+
+```    
+
+
+## 工作流程2
+
+```{r}
+# Set file paths
+# Merge data based on common identifier
+merged_data <- merge(all_group_longformat, metadata, by.x = "group", by.y = "SampleID")
+
+# Preview merged data
+# print(merged_data)
+
+
+```    
+## 工作流程3
+
+```{r}
+# Define the order of variables
+variable_order <- c("chemoheterotrophy", "fermentation", "animal_parasites_or_symbionts", "aerobic_chemoheterotrophy",
+                    "nitrate_reduction", "aromatic_compound_degradation", "aliphatic_non_methane_hydrocarbon_degradation",
+                    "hydrocarbon_degradation", "methanol_oxidation", "methylotrophy", "human_associated", "ureolysis",
+                    "respiration_of_sulfur_compounds", "human_gut", "mammal_gut", "human_pathogens_all", "sulfate_respiration",
+                    "sulfite_respiration", "sulfur_respiration", "dark_hydrogen_oxidation")
+
+# Convert variable to factor with specified order
+merged_data$variable <- factor(merged_data$variable, levels = variable_order)
+# print(merged_data)
+
+```    
+ 
+ 
+## 工作流程4-全部数据一张图
+
+```{r}
+# Create a bar plot with dodge position
+ggplot(merged_data, aes(x = variable, y = value, fill = State)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Bar Plot of Variables by State", x = "Variable", y = "Value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+# 乱序
+p <- ggplot(merged_data, aes(x = variable, y = value, fill = State)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Bar Plot of Variables by State", x = "Variable", y = "Value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Display plot
+print(p)
+
+
+# 按顺序排列
+p <- ggplot(merged_data, aes(x = variable, y = value, fill = State)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Bar Plot of Variables by State", x = "Variable", y = "Value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+print(p)
+
+
+# Save the plot as a PNG file
+ggsave("bar_plot.png", plot = p, width = 10, height = 6)
+
+# Save the plot as a PDF file
+ggsave("bar_plot.pdf", plot = p, width = 10, height = 6)
+
+
+```    
+ 
+ 
+ 
+ 
+## 工作流程4-数据分开展示1
+
+```{r}
+# Define the order of the first set of variables
+variable_order1 <- c("chemoheterotrophy", "fermentation", "animal_parasites_or_symbionts", "aerobic_chemoheterotrophy", "nitrate_reduction")
+
+# Define the order of the second set of variables
+variable_order2 <- c("aromatic_compound_degradation", "aliphatic_non_methane_hydrocarbon_degradation", "hydrocarbon_degradation",
+                     "methanol_oxidation", "methylotrophy", "human_associated", "ureolysis", "respiration_of_sulfur_compounds",
+                     "human_gut", "mammal_gut", "human_pathogens_all", "sulfate_respiration", "sulfite_respiration",
+                     "sulfur_respiration", "dark_hydrogen_oxidation")
+
+# Combine orders to ensure consistent bar width
+combined_order <- c(variable_order1, variable_order2)
+
+# Convert variable to factor with combined order for consistent plotting
+merged_data$variable <- factor(merged_data$variable, levels = combined_order)
+
+```    
+ 
+
+
+## 工作流程4-数据分开展示2
+
+```{r}
+# Filter data for the first set of variables
+plot1_data <- merged_data %>% filter(variable %in% variable_order1)
+
+# Create a bar plot with dodge position
+p1 <- ggplot(plot1_data, aes(x = variable, y = value, fill = State)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.7) +
+  scale_x_discrete(drop = FALSE) +
+  labs(title = "Bar Plot of Selected Variables (Set 1) by State", x = "Variable", y = "Value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Display plot
+print(p1)
+
+# Save the first plot as a PDF file
+ggsave("bar_plot_big.pdf", plot = p1, width = 10, height = 6)
+
+```    
+ 
+ 
+ ## 工作流程4-数据分开展示3
+
+```{r}
+# Filter data for the second set of variables
+plot2_data <- merged_data %>% filter(variable %in% variable_order2)
+
+# Create a bar plot with dodge position
+p2 <- ggplot(plot2_data, aes(x = variable, y = value, fill = State)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.7) +
+  scale_x_discrete(drop = FALSE) +
+  labs(title = "Bar Plot of Selected Variables (Set 2) by State", x = "Variable", y = "Value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Display plot
+print(p2)
+
+# Save the first plot as a PDF file
+ggsave("bar_plot_small.pdf", plot = p2, width = 10, height = 6)
+
+```    
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
