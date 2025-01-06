@@ -1,0 +1,7 @@
+ID	Col_cluster
+DSpost	C1
+DSpre	C1
+DSmed	C1
+HSpost	C2
+HSmed	C2
+HSpre	C2

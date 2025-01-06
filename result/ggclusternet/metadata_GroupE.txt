@@ -1,0 +1,7 @@
+GroupID	Day_1
+DSpre	pre
+DSmed	med
+DSpost	post
+HSpre	pre
+HSmed	med
+HSpost	post

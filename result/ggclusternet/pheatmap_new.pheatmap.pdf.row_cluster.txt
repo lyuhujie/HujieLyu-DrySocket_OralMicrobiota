@@ -1,0 +1,14 @@
+ID	Row_cluster
+centralization.degree	C1
+centralization.closeness	C1
+num.vertices(n)	C1
+num.edges(L)	C1
+num.pos.edges	C1
+average.degree(Average K)	C1
+Connectance(edge_density)	C1
+RM(relative.modularity)	C1
+centralization.betweenness	C2
+average.path.length	C2
+diameter	C2
+mean.clustering.coefficient(Average.CC)	C2
+no.clusters	C2

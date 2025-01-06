@@ -1,0 +1,187 @@
+[TOC]
+
+
+
+
+```{r}
+# 软件检测和安装
+# Load required libraries
+# 加载所需的库
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(RColorBrewer)
+library(gridExtra)
+
+
+```
+
+## 数据加载
+
+```{r}
+# Read data
+connectors <- read.table("C:/16S/result/ggclusternet/connectors.txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+module_hubs <- read.table("C:/16S/result/ggclusternet/module_hubs.txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+otutab <- read.table("C:/16S/result/ggclusternet/otutab.txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+taxonomy <- read.table("C:/16S/result/ggclusternet/taxonomy.txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+metadata <- read.table("C:/16S/result/ggclusternet/metadata.txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+
+print(connectors)
+print(module_hubs)
+print(otutab)
+print(taxonomy)
+print(metadata)
+
+```    
+
+
+## 转化为长矩阵
+
+```{r}
+# Transform otutab data to long format
+otutab_long <- otutab %>% 
+  pivot_longer(cols = -OTUID, names_to = "Sample", values_to = "Count")
+
+# Log10 transformation
+otutab_long$LogCount <- log10(otutab_long$Count + 1)
+print(otutab_long)
+
+```    
+
+
+
+## 数据整合
+
+```{r}
+# Merge data
+# Merge metadata with connectors and module_hubs
+connectors_data <- merge(connectors, metadata, by.x = "Group_dayE", by.y = "Group_dayE")
+module_hubs_data <- merge(module_hubs, metadata, by.x = "Group_dayE", by.y = "Group_dayE")
+print(connectors_data)
+print(module_hubs_data)
+
+# Merge with otutab_long
+connectors_data <- merge(connectors_data, otutab_long, by.x = c("OTUID", "Sample"), by.y = c("OTUID", "Sample"))
+module_hubs_data <- merge(module_hubs_data, otutab_long, by.x = c("OTUID", "Sample"), by.y = c("OTUID", "Sample"))
+print(connectors_data)
+print(module_hubs_data)
+
+
+
+# # Ensure all samples have data
+# all_samples <- unique(otutab_long$Sample)
+# connectors_data <- connectors_data %>%
+#   complete(OTUID, Sample = all_samples, fill = list(LogCount = 0))
+# module_hubs_data <- module_hubs_data %>%
+#   complete(OTUID, Sample = all_samples, fill = list(LogCount = 0))
+
+
+
+
+
+
+```    
+
+
+## 箱线图出图1
+
+```{r}
+
+# 使用指定颜色
+# 使用指定颜色
+colors_connectors <- c("DSpre" = "#FBB4AE", "DSmed" = "#FBB4AE", "DSpost" = "#FBB4AE")
+
+# 确保 Group_dayE 顺序
+connectors_data$Group_dayE <- factor(connectors_data$Group_dayE, levels = c("DSpre", "DSmed", "DSpost"))
+
+# 分别绘制每个 Group_dayE 的箱线图
+plot_list_connectors <- list()
+group_levels_connectors <- levels(connectors_data$Group_dayE)
+
+for (group in group_levels_connectors) {
+  data_subset <- connectors_data %>% filter(Group_dayE == group)
+  p <- ggplot(data_subset, aes(x = OTUID, y = LogCount, fill = Group_dayE)) +
+    geom_boxplot(outlier.shape = NA, alpha = 0.7, width = 0.5, size = 0.3) +
+    geom_jitter(width = 0.05, size = 0.6, alpha = 0.7, color = "#FF0000", fill = NA) +
+    labs(title = paste("Connectors OTUs Count -", group), y = ifelse(group == "DSpre", "Log10 Count", ""), x = "") +
+    scale_fill_manual(values = colors_connectors) +
+    theme_minimal(base_size = 10) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 6, margin = margin(t = 5)),
+          axis.ticks.length = unit(0.1, "cm"),
+          legend.position = "none",
+          axis.title.x = element_blank(),
+          panel.grid = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black")) +
+    annotation_custom(grid::rectGrob(gp = grid::gpar(fill = colors_connectors[[group]], col = NA)), ymin = -2, ymax = -1, xmin = -Inf, xmax = Inf) +
+    annotation_custom(grid::textGrob(group, gp = grid::gpar(col = "white", fontsize = 10)), ymin = -2, ymax = -1, xmin = -Inf, xmax = Inf)
+  plot_list_connectors[[group]] <- p
+}
+
+# 打印图形，调整宽度比例
+grid.arrange(grobs = plot_list_connectors, widths = c(3, 22, 7), ncol = 3)
+
+# 保存图像到PDF文件
+pdf("connectors_boxplot.pdf", width = 12, height = 2.67)
+grid.arrange(grobs = plot_list_connectors, widths = c(3, 22, 7), ncol = 3)
+dev.off()
+
+
+
+# 使用指定颜色
+colors_hubs <- c("DSpre" = "#B3E2CD", "DSmed" = "#B3E2CD", "DSpost" = "#B3E2CD")
+
+# 确保 Group_dayE 顺序
+module_hubs_data$Group_dayE <- factor(module_hubs_data$Group_dayE, levels = c("DSpre", "DSmed", "DSpost"))
+
+# 分别绘制每个 Group_dayE 的箱线图
+plot_list_hubs <- list()
+group_levels_hubs <- levels(module_hubs_data$Group_dayE)
+
+for (group in group_levels_hubs) {
+  data_subset <- module_hubs_data %>% filter(Group_dayE == group)
+  p <- ggplot(data_subset, aes(x = OTUID, y = LogCount, fill = Group_dayE)) +
+    geom_boxplot(outlier.shape = NA, alpha = 0.7, width = 0.5, size = 0.3) +
+    geom_jitter(width = 0.05, size = 1, alpha = 0.7, color = "#20B187", fill = NA) +
+    labs(title = paste("Module Hubs OTUs Count -", group), y = ifelse(group == "DSpre", "Log10 Count", ""), x = "") +
+    scale_fill_manual(values = colors_hubs) +
+    theme_minimal(base_size = 10) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 6, margin = margin(t = 5)),
+          axis.ticks.length = unit(0.1, "cm"),
+          legend.position = "none",
+          axis.title.x = element_blank(),
+          panel.grid = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(color = "black")) +
+    annotation_custom(grid::rectGrob(gp = grid::gpar(fill = colors_hubs[[group]], col = NA)), ymin = -2, ymax = -1, xmin = -Inf, xmax = Inf) +
+    annotation_custom(grid::textGrob(group, gp = grid::gpar(col = "white", fontsize = 10)), ymin = -2, ymax = -1, xmin = -Inf, xmax = Inf)
+  plot_list_hubs[[group]] <- p
+}
+
+# 打印图形，调整宽度比例
+grid.arrange(grobs = plot_list_hubs, widths = c(9, 17, 9), ncol = 3)
+
+# 保存图像到PDF文件
+pdf("module_hubs_boxplot.pdf", width = 14, height = 2.67)
+grid.arrange(grobs = plot_list_hubs, widths = c(9, 17, 9), ncol = 3)
+dev.off()
+
+
+# 保存图像到PDF文件
+# ggsave("connectors_boxplot.pdf", plot = p1, width = 10, height = 6, units = "in")
+# ggsave("module_hubs_boxplot.pdf", plot = p2, width = 10, height = 6, units = "in")
+
+
+
+
+
+```    
+
+
+
+
+ 
+
+ 
+ 
+ 
