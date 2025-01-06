@@ -1,0 +1,251 @@
+[TOC]
+
+# ggpicrust2：PICRUSt2结果分析和可视化
+
+https://github.com/cafferychen777/ggpicrust2
+
+ggpicrust2是一个综合软件包，旨在为分析和解释 PICRUSt2 功能预测结果提供无缝且直观的解决方案。它提供了广泛的功能，包括通路名称/描述注释、高级差异丰度 (differential abundance, DA) 方法以及 DA 结果的可视化。
+
+
+```{r}
+# 软件检测和安装
+# if(!requireNamespace("ggpicrust2", quietly = TRUE))
+#   devtools::install_github('cafferychen777/ggpicrust2')
+library(readr)
+library(ggpicrust2)
+library(tibble)
+library(tidyverse)
+library(ggprism)
+library(patchwork)
+library(ggplot2)
+library(ggh4x)
+library(fs)
+```
+
+## 工作流程ggpicrust2
+
+```{r}
+# 加载必要的数据: abundance data（丰度数据） and metadata（元数据）
+# read_delim是压缩包从解压到读取一步完成。
+df <- read_delim("C:/16S/result/picrust2/out/KO_metagenome_out/pred_metagenome_unstrat.tsv.gz", delim = "\t", col_names = TRUE, trim_ws = TRUE)
+md <- read_delim("C:/16S/result/picrust2/out/metadata_all.txt", delim = "\t", escape_double = FALSE, trim_ws = TRUE)
+# 样本列表：有些分析只能有2个分组
+
+
+
+
+# 转换KO为通路。转换一次就行
+kegg_abundance <- ko2kegg_abundance(data = df)
+
+AKEGG_abundance = kegg_abundance
+
+BKEGG_abundance = AKEGG_abundance
+
+
+# "DSmed-ISmed" "DEmed-IEmed" "DSmed-HSmed" "DEmed-HEmed" "DSpre-DSmed" "DGpre-DEmed" "DSmed-DSpost" "DEmed-DEpost" "DSpre-DSpost" "DGpre-DEpost" "HSpre-HSmed" "HSmed-HSpost" "HGpre-HEmed" "HEmed-HEpost"
+# "HGpre-DGpre" "HSpre-DSpre" "HSmed-DSmed" "HEmed-DEmed" "HSpost-DSpost" "HEpost-DEpost" 
+
+SA = "DSpost"
+SB = "HSpost"
+A_method = "LinDA_new"
+B_method = "edgeR_new"
+tialname = "daa.txt"
+tialname2 = "daa.pdf"
+result_file_name = "figure_result_new"
+PCA_names = "pca"
+heatmap_names = "heatmap"
+errorbar_names = "errorbar"
+output_site = "C:/16S/result/picrust2/out/"
+errorbar_txt_filesnames <- paste(A_method,errorbar_names,SA,SB,tialname,sep ="_")
+errorbar_txt_filesnames <- paste(output_site,errorbar_txt_filesnames,sep ="")
+
+pca_filenames <- paste(A_method,PCA_names,SA,SB,tialname2,sep ="_")
+pca_filenames <- paste(output_site,pca_filenames,sep ="")
+
+result_file_names <- paste(A_method,result_file_name,sep ="_")
+result_file_names <- paste(output_site,result_file_names,sep ="")
+
+heatmap_names <- paste(A_method,heatmap_names,SA,SB,tialname2,sep ="_")
+heatmap_names <- paste(output_site,heatmap_names,sep ="")
+
+errorbar_filenames <- paste(A_method,errorbar_names,SA,SB,tialname2,sep ="_")
+errorbar_filenames <- paste(output_site,errorbar_filenames,sep ="")
+
+file_names <- paste(A_method,SA,SB,tialname,sep ="_")
+file_names <- paste(output_site,file_names,sep ="")
+
+file_names2 <- paste(B_method,SA,SB,tialname,sep ="_")
+file_names2 <- paste(output_site,file_names2,sep ="")
+
+print(pca_filenames)
+print(heatmap_names)
+print(errorbar_filenames)
+print(errorbar_txt_filesnames)
+print(result_file_names)
+print(file_names)
+print(file_names2)
+
+# 筛选过后的pca作图
+md <- read_delim("C:/16S/result/picrust2/out/metadata_all.txt", delim = "\t", escape_double = FALSE, trim_ws = TRUE)
+# idx1 = md$Group_dayE %in% c("DSmed", "HSmed")
+idx1 = md$Group_dayE %in% c(SA, SB)
+md_filtered_1 = md[idx1,]
+BKEGG_aaundance = BKEGG_abundance[,idx1]
+p = pathway_pca(abundance = BKEGG_aaundance, metadata = md_filtered_1, group = "Group_dayE")
+ggsave(pca_filenames, p, width = 160, height = 130, units = "mm")
+
+
+# 只能有2个分组
+## 筛选样本
+# idx = md$Group %in% c("KO", "WT")
+# md = md[idx,]
+# idx = colnames(kegg_abundance) %in% md$SampleID # c(md$SampleID, "function", "#NAME")
+# kegg_abundance = kegg_abundance[,idx]
+
+# 实验结果
+# 筛选将上百个features按组分成少数
+md <- read_delim("C:/16S/result/picrust2/out/metadata_all.txt", delim = "\t", escape_double = FALSE, trim_ws = TRUE)
+idx = md$Group_dayE %in% c(SA, SB)
+md = md[idx,]
+idx = colnames(BKEGG_abundance) %in% md$SampleID # c(md$SampleID, "function", "#NAME")
+# idx = colnames(kegg_abundance) %in% md$SampleID %in% c(md$SampleID, "function", "#NAME")
+CKEGG_Abundance = BKEGG_abundance[,idx]
+ 
+
+## 组间差异比较
+# 使用不同的差异比较方法
+# daa <- pathway_daa(abundance = kegg_abundance, metadata = md, group = "Group", daa_method = "LinDA", select = NULL, p.adjust = "none", reference = "WT")
+# write.table(daa, file="daa_LinDA_WT.txt", append = F, sep="\t", quote=F, row.names=F, col.names=T)
+# 实验结果
+# daa0 <- pathway_daa(abundance = kegg_abundance, metadata = md, group = "Group_dayE", daa_method = "ALDEx2", select = NULL, p.adjust = "BH", reference = NULL)
+# write.table(daa, file="daa_ALDEx2_HSmed.txt", append = F, sep="\t", quote=F, row.names=F, col.names=T)
+# method: ALDEx2(无结果)、DESeq2、edgeR(结果>30)、limma voom、metagenomeSeq、LinDA(无结果)、Maaslin2,ANCOM和ANCOMBC
+
+# 可以使用
+# daa0 <- pathway_daa(abundance = CKEGG_Abundance, metadata = md, group = "Group_dayE", daa_method = A_method, select = NULL, p.adjust = "none", reference = NULL)
+# write.table(daa0, file=file_names, append = F, sep="\t", quote=F, row.names=F, col.names=T)
+
+daa1 <- pathway_daa(abundance = CKEGG_Abundance, metadata = md, group = "Group_dayE", daa_method = "LinDA", select = NULL, p.adjust = "none", reference = SA)
+write.table(daa1, file=file_names, append = F, sep="\t", quote=F, row.names=F, col.names=T)
+# 
+# daa2 <- pathway_daa(abundance = CKEGG_Abundance, metadata = md, group = "Group_dayE", daa_method = "DESeq2", select = NULL, p.adjust = "none", reference = SA)
+# write.table(daa2, file="daa_DESeq2_daa.txt", append = F, sep="\t", quote=F, row.names=F, col.names=T)
+# 
+daa3 <- pathway_daa(abundance = CKEGG_Abundance, metadata = md, group = "Group_dayE", daa_method = "edgeR", select = NULL, p.adjust = "none", reference = SA)
+write.table(daa3, file=file_names2, append = F, sep="\t", quote=F, row.names=F, col.names=T)
+# 
+# daa4 <- pathway_daa(abundance = KEGG_Abundance, metadata = md, group = "Group_dayE", daa_method = "limma voom", select = NULL, p.adjust = "none", reference = SA)
+# write.table(daa4, file="daa_limma_voom_HSmed.txt", append = F, sep="\t", quote=F, row.names=F, col.names=T)
+# 
+# daa5 <- pathway_daa(abundance = KEGG_Abundance, metadata = md, group = "Group_dayE", daa_method = "metagenomeSeq", select = NULL, p.adjust = "none", reference = SA)
+# write.table(daa5, file="daa_metagenomeSeq_HSmed.txt", append = F, sep="\t", quote=F, row.names=F, col.names=T)
+# 
+# daa6 <- pathway_daa(abundance = KEGG_Abundance, metadata = md, group = "Group_dayE", daa_method = "Maaslin2", select = NULL, p.adjust = "none", reference = SA)
+# write.table(daa6, file="daa_Maaslin2_HSmed.txt", append = F, sep="\t", quote=F, row.names=F, col.names=T)
+
+
+#注释结果，仅筛选p<0.05的结果
+# 重要步骤，筛选，如果数量过大会报错。不能超过30
+annotated_daa <- pathway_annotation(pathway = SB,
+  daa_results_df = daa1, ko_to_kegg = T)
+annotated_daa
+# 进一步过滤 p < 0.05/0.01/0.001的特征. 0.005 for DSmed-HSmed(daa1), DSpre-HSpre(daa3); 0.05 for DSpost-HSpost
+feature_filter <- annotated_daa %>% 
+  filter(p_adjust < 0.05)
+daa_filter_result_df = feature_filter
+
+print(feature_filter)
+
+
+# 创建热图
+CKEGG_Abundance$pathway = rownames(CKEGG_Abundance)
+p = pathway_heatmap(
+  abundance = CKEGG_Abundance %>% 
+    right_join(
+      feature_filter %>% select(all_of(c("feature","pathway_name"))),
+      by = c("pathway" = "feature")
+    ) %>% select(-"pathway") %>% 
+    column_to_rownames("pathway_name"),
+  metadata = md, 
+  group = "Group_dayE"
+)
+ggsave(heatmap_names, p, width = 160*1.5, height = 100*1.5, units = "mm")
+
+
+# 设置metadata与abundance一致
+# 不改也行前面改过
+md <- read_delim("C:/16S/result/picrust2/out/metadata_all.txt", delim = "\t", escape_double = FALSE, trim_ws = TRUE)
+idx = md$Group_dayE %in% c(SA, SB)
+md = md[idx,]
+idx = colnames(BKEGG_abundance) %in% md$SampleID # c(md$SampleID, "function", "#NAME")
+# idx = colnames(kegg_abundance) %in% md$SampleID %in% c(md$SampleID, "function", "#NAME")
+CCKEGG_Abundance = BKEGG_abundance[,idx]
+
+
+# 选择分组信息
+Group <-
+  md$Group_dayE
+
+# 出作图数据/结果。拓展柱状图
+results_list <-
+  pathway_errorbar(
+    abundance = CCKEGG_Abundance,
+    daa_results_df = feature_filter,
+    Group = Group,
+    p_values_threshold = 0.05,
+    order = "pathway_class",
+    select = NULL,
+    ko_to_kegg = TRUE,
+    p_value_bar = TRUE,
+    colors = NULL,
+    x_lab = "pathway_name"
+  )
+## 拓展柱状图绘图、预览和保存
+ggsave(errorbar_filenames, results_list, width = 450, height = 180, units = "mm")
+
+# pathway_errorbar <- result[[1]]$plot
+# pathway_errorbar
+# ggsave("pathway_errorbar.pdf", pathway_errorbar, width = 360, height = 180, units = "mm")
+
+
+## 拓展柱状图制表
+head(daa_filter_result_df)
+pathway_errorbar <- daa_filter_result_df
+# name = "A_B"
+write.table(pathway_errorbar, file=errorbar_txt_filesnames, append = F, sep="\t", quote=F, row.names=F, col.names=T)
+
+# pathway_errorbar <- results_list
+# head(results_list)
+# data.frame(results_list)
+# # name = "A_B"
+# write.table(results_list, file="pathway_errorbar.txt", append = F, sep="\t", quote=F, row.names=F, col.names=T)
+
+
+## 将生成的文件放入指定文件夹
+
+
+source_dir <- "C:/16S/result/picrust2/out"
+target_dir <- result_file_names
+
+if (!dir.exists(target_dir)) {
+  dir.create(target_dir)
+}
+
+# 选取含特定字符的文件（例如后缀为 csv 的所有文件）
+tobeCopy1 <- list.files(source_dir, pattern = "*_daa.txt", full.names = TRUE)
+tobeCopy2 <- list.files(source_dir, pattern = "*_daa.pdf", full.names = TRUE)
+
+# 复制选中文件到目标文件夹
+sapply(tobeCopy1, function(x) { file.copy(x, target_dir, overwrite = TRUE) })
+sapply(tobeCopy2, function(x) { file.copy(x, target_dir, overwrite = TRUE) })
+
+# 删除源文件夹中的已复制文件
+file.remove(tobeCopy1)
+file.remove(tobeCopy2)
+
+# 确认文件已经复制和删除
+print("Files copied and deleted successfully.")
+
+```    
+
+ 
