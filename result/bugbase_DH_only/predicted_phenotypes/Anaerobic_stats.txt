@@ -1,0 +1,24 @@
+
+Number of samples in each treatment group:
+
+  D   H 
+ 83 239 
+
+Relative Abundance with trait (mean):
+        D         H 
+0.6382142 0.5653768 
+
+Relative Abundance with trait (median):
+        D         H 
+0.6666022 0.5330273 
+
+Standard deviation:
+        D         H 
+0.2302251 0.2211151 
+
+Mann-Whitney-Wilcoxon Test was performed.
+p-values is:
+0.006762836 
+
+FDR-corrected p-value is:
+0.006762836 
