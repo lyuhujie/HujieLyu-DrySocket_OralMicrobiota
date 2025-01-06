@@ -21,7 +21,7 @@
     db=/c/EasyMicrobiome-master
     PATH=$PATH:${db}/win
     cd ${wd}
-  
+    
     #  linux版本
     source /data/meta/.bashrc
     db=/data7/lvhujie/db_old/EasyMicrobiome
@@ -314,7 +314,7 @@
       -p DHI_new
       
     
-### Figure3.A alpha多样性部分见 C:/16S/All_figures_pipeline/Figure3.A_boxplot+violin.Rmd 脚本      
+### Figure3.A alpha多样性部分见 result/alpha2/boxplot+violin.Rmd 脚本      
       
       
       
@@ -547,10 +547,7 @@
     # 可视化见picrust2文件夹中Oral_ggpicrust2.Rmd
 
 ## 2. 元素循环FAPROTAX
-
-    
     ### 作图文件生成
-    
     # 设置工作目录
     wd=/mnt/c/16S/result/faprotax2/
     mkdir -p ${wd} && cd ${wd}
@@ -659,7 +656,7 @@
     
     ### 作图可用代码，也可用在线网站。本研究这部分使用ImageGP网站作图。
     ### Figure2.D
-    # 作图代码见 C:/16S/All_figures_pipeline/Figure2.D_Dodge_barplot.Rmd
+    # 作图代码见 result/faprotax2/Dodge_barplot.Rmd
    
    
 
@@ -672,6 +669,7 @@
     db=/c/EasyMicrobiome-master
     PATH=$PATH:${db}/win
     
+    
     cd ${wd}/result
     bugbase=${db}/script/BugBase
     # mkdir -p bugbase_premedpost
@@ -680,9 +678,6 @@
     # 脚本已经优化适合R4.0，biom包更新为biomformat
     Rscript ${bugbase}/bin/run.bugbase.r -L ${bugbase} \
       -i gg/otutab.txt -m metadata.txt -c State -o bugbase_new/
-
-    # Figure2.E 
-    # 运行完上面代码后自己出图。
 
     ### 2. 其它可用分析
     # 使用 http://www.bic.ac.cn/ImageGP/index.php/Home/Index/BugBase.html
@@ -823,16 +818,28 @@
     # 树iqtree/otus.contree在 http://itol.embl.de/ 上展示，拖拽不同Plan中的文件添加树注释
    
    
-  
-# 微生物网络分析
-### Figure4.A，B 需要使用 C:/16S/All_figures_pipeline/Figure4.A_ggclusternet_main_pipeline_new.Rmd以及C:/16S/All_figures_pipeline/Figure4.B_pheatmap_of_network.Rmd
-#### Figure4.C,D,F 需要使用 C:/16S/All_figures_pipeline/Figure4.CDF_Net_analysis_main_pipeline.Rmd
-#### Figure4.E  需要使用 C:/16S/All_figures_pipeline/Figure4.E_boxplot_of_network.Rmd 脚本。
+   
 
 
-# 随机森林分析
+
+### 微生物网络分析
+
+## Figure4.A，B 需要使用 result/ggclusternet/ggclusternet_main_pipeline_new.Rmd 脚本。需要再打开一个RStudio project这样更方便。
+# Figure4.B 使用网站绘制，还未换成代码。
+
+
+## Figure4.C,D,F 需要使用 result/clusternetanalysis/Net_analysis_main_pipeline.Rmd 脚本。需要再打开一个RStudio project这样更方便。
+
+
+## Figure4.E  代码见result/ggclusternet/boxplot_of_network.Rmd 脚本。
+
+
+
+
+### 随机森林分析
+
 ## 所有分析代码见 result/randomforestclassification/RF_classification_S_E.Rmd 脚本。
-### 以Figure5.A为例，跑整个流程。
+#  以Figure5.A为例，跑整个流程。
 
 
 
