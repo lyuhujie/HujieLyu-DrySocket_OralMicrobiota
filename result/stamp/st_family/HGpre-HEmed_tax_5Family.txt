@@ -1,0 +1,3 @@
+var	estimate	estimate1	estimate2	statistic	p.value	parameter	conf.low	conf.high	method	alternative
+Bacteria|Candidatus_Saccharibacteria|Unassigned|Unassigned|Unassigned	-0.652444523359358	0.428920955918237	1.08136547927759	-2.13941883401451	0.0385483225680741	40.0517556954179	-1.26877381401544	-0.0361152327032729	Welch Two Sample t-test	two.sided
+Bacteria|Firmicutes|Bacilli|Bacillales|Bacillales_Incertae_Sedis_XI	0.747822663341773	1.53148550384583	0.783662840504056	2.14118821753872	0.0372039931203166	49.5330660943146	0.0461576177509536	1.44948770893259	Welch Two Sample t-test	two.sided

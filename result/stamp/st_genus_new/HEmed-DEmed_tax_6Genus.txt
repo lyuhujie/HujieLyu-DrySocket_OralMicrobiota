@@ -1,0 +1,5 @@
+var	estimate	estimate1	estimate2	statistic	p.value	parameter	conf.low	conf.high	method	alternative
+Bacteria|Firmicutes|Clostridia|Clostridiales|Peptostreptococcaceae|Filifactor	-0.279646612374926	0.15263136805718	0.432277980432107	-2.13367361008101	0.0382949217854777	45.4941380805179	-0.543542826426341	-0.0157503983235123	Welch Two Sample t-test	two.sided
+Bacteria|Firmicutes|Clostridia|Clostridiales|Peptostreptococcaceae|Peptoanaerobacter	-0.146914582994823	0.021500776059071	0.168415359053894	-2.1947034159722	0.0342337154963866	38.8201477998776	-0.282334619870015	-0.0114945461196299	Welch Two Sample t-test	two.sided
+Bacteria|Proteobacteria|Betaproteobacteria|Burkholderiales|Burkholderiaceae|Ralstonia	-0.0041240147074769	0.000163144379512981	0.00428715908698988	-2.33565471568826	0.0247950063451529	38.6436301168484	-0.00769648938646827	-0.000551540028485532	Welch Two Sample t-test	two.sided
+Bacteria|Spirochaetes|Spirochaetia|Spirochaetales|Spirochaetaceae|Treponema	-0.430674345925407	0.190786504291222	0.621460850216628	-2.38305264835379	0.0214142082187295	45.3918088812076	-0.794584078464927	-0.0667646133858861	Welch Two Sample t-test	two.sided

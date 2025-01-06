@@ -1,0 +1,4 @@
+var	estimate	estimate1	estimate2	statistic	p.value	parameter	conf.low	conf.high	method	alternative
+Bacteria|Actinobacteria|Actinobacteria|Bifidobacteriales|Bifidobacteriaceae|Scardovia	-0.0341627636135632	0.00397530965607164	0.0381380732696349	-2.03505015882046	0.0494974632817193	34.8965124997675	-0.0682461742541822	-7.93529729442709e-05	Welch Two Sample t-test	two.sided
+Bacteria|Campilobacterota|Campylobacteria|Campylobacterales|Campylobacteraceae|Campylobacter	-2.34192360463087	0.743305702316965	3.08522930694783	-2.27069340063648	0.0285735784141076	40.3532835032189	-4.4258305245491	-0.258016684712629	Welch Two Sample t-test	two.sided
+Bacteria|Firmicutes|Clostridia|Clostridiales|Peptostreptococcaceae|Peptoanaerobacter	-0.536077457342011	0.0195167602079818	0.555594217549993	-2.03536767697537	0.0496570099539956	34.0481685036771	-1.07130444062201	-0.000850474062013456	Welch Two Sample t-test	two.sided

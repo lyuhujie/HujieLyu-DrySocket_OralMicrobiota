@@ -1,0 +1,3 @@
+var	estimate	estimate1	estimate2	statistic	p.value	parameter	conf.low	conf.high	method	alternative
+Bacteria|Firmicutes|Bacilli|Lactobacillales|Streptococcaceae	-4.00799754520287	4.01031082264524	8.01830836784811	-2.15762986946973	0.0350906332582772	58.2786192529356	-7.72599492283715	-0.29000016756858	Welch Two Sample t-test	two.sided
+Bacteria|Proteobacteria|Gammaproteobacteria|Enterobacterales|Enterobacteriaceae	-0.081939790338029	0.0222674275483772	0.104207217886406	-2.31185079827866	0.0241282352332157	61.887864388957	-0.152792637305364	-0.0110869433706938	Welch Two Sample t-test	two.sided

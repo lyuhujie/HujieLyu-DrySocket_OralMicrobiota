@@ -1,0 +1,2 @@
+var	estimate	estimate1	estimate2	statistic	p.value	parameter	conf.low	conf.high	method	alternative
+Bacteria|Bacteroidetes|Bacteroidia|Bacteroidales|Prevotellaceae	-6.28067906782069	19.2127479003904	25.493426968211	-2.24838243374837	0.0275510378841243	73.4784955377565	-11.8473486983596	-0.71400943728174	Welch Two Sample t-test	two.sided

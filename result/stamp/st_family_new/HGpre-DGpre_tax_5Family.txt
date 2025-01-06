@@ -1,0 +1,2 @@
+var	estimate	estimate1	estimate2	statistic	p.value	parameter	conf.low	conf.high	method	alternative
+Bacteria|Firmicutes|Clostridia|Clostridiales|Peptostreptococcaceae	-0.463715757250258	0.482920349926409	0.946636107176667	-2.29069679980254	0.0277778880531038	36.9898488728786	-0.873890546031667	-0.0535409684688496	Welch Two Sample t-test	two.sided

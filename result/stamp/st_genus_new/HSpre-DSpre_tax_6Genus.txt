@@ -1,0 +1,5 @@
+var	estimate	estimate1	estimate2	statistic	p.value	parameter	conf.low	conf.high	method	alternative
+Bacteria|Bacteroidetes|Bacteroidia|Bacteroidales|Porphyromonadaceae|Tannerella	0.819644797827344	1.31526107892207	0.495616281094729	2.19846246130871	0.0401785633435886	19.4887372146144	0.0406326052928911	1.5986569903618	Welch Two Sample t-test	two.sided
+Bacteria|Bacteroidetes|Bacteroidia|Bacteroidales|Prevotellaceae|Prevotellamassilia	-0.162336739118013	0.0638287060052804	0.226165445123293	-2.57643422799941	0.0122675705302873	64.8697075999798	-0.28817779392111	-0.0364956843149154	Welch Two Sample t-test	two.sided
+Bacteria|Firmicutes|Bacilli|Lactobacillales|Streptococcaceae|Streptococcus	-4.00799754520287	4.01031082264524	8.01830836784811	-2.15762986946973	0.0350906332582772	58.2786192529356	-7.72599492283715	-0.29000016756858	Welch Two Sample t-test	two.sided
+Bacteria|Proteobacteria|Gammaproteobacteria|Pasteurellales|Pasteurellaceae|Haemophilus	-4.07917949591753	2.96126715362075	7.04044664953828	-2.39381346048287	0.0196187907019294	63.9389909164133	-7.48347466523501	-0.674884326600047	Welch Two Sample t-test	two.sided

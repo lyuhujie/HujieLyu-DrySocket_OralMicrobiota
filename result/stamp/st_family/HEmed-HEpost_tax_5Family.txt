@@ -1,0 +1,2 @@
+var	estimate	estimate1	estimate2	statistic	p.value	parameter	conf.low	conf.high	method	alternative
+Bacteria|Firmicutes|Negativicutes|Selenomonadales|Selenomonadaceae	-0.599060642344412	0.335223831351259	0.934284473695671	-2.92237522380726	0.0059140957791735	36.7135398637689	-1.01452129789384	-0.183599986794988	Welch Two Sample t-test	two.sided

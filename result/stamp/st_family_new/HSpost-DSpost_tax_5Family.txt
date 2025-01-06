@@ -1,0 +1,2 @@
+var	estimate	estimate1	estimate2	statistic	p.value	parameter	conf.low	conf.high	method	alternative
+Bacteria|Proteobacteria|Gammaproteobacteria|Pasteurellales|Pasteurellaceae	-5.98589135372141	4.31737362241211	10.3032649761335	-3.11638808769808	0.00303855737910197	49.7435569381589	-9.84438143913724	-2.12740126830557	Welch Two Sample t-test	two.sided

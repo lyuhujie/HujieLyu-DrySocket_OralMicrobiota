@@ -1,0 +1,3 @@
+var	estimate	estimate1	estimate2	statistic	p.value	parameter	conf.low	conf.high	method	alternative
+Bacteria|Campilobacterota|Campylobacteria|Campylobacterales|Campylobacteraceae	-2.34192360463087	0.743305702316965	3.08522930694783	-2.27069340063648	0.0285735784141076	40.3532835032189	-4.4258305245491	-0.258016684712629	Welch Two Sample t-test	two.sided
+Bacteria|Firmicutes|Clostridia|Clostridiales|Peptostreptococcaceae	-1.14274092677555	0.678987872138102	1.82172879891365	-2.13481199565732	0.038804946677183	40.9752545615026	-2.2237983930673	-0.0616834604838044	Welch Two Sample t-test	two.sided
